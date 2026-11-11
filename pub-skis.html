@@ -1,0 +1,539 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pub Skis Sport Again</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Planche de pubs : vidéo 9:16 en tête, puis carré, story et formats display. Les pubs gardent la charte fixe (Vert Nuit / Craie), la planche suit le thème. */
+:root{
+  --nuit:#062E22; --piste:#0F6B50; --piste-700:#0A4D39; --piste-100:#C9E6DA; --piste-50:#E8F4EF;
+  --orange:#FF5A1F; --podium:#FFC93C; --encre:#14201C; --ardoise:#55625D; --brume:#D9DDD8; --craie:#F6F3EC;
+  --bg:#F6F3EC; --surface:#FFFFFF; --fg:#14201C; --muted:#55625D; --line:#D9DDD8; --accent:#0F6B50;
+  --f-d:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --f-t:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08201A;--surface:#0E2A21;--fg:#EEF3EF;--muted:#A8B9B1;--line:#244637;--accent:#5CC99C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#08201A;--surface:#0E2A21;--fg:#EEF3EF;--muted:#A8B9B1;--line:#244637;--accent:#5CC99C;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--f-t);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+p{margin:0}
+.page{max-width:1200px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:48px}
+.eyebrow{font:600 12px/1 var(--f-t);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.intro{display:grid;gap:12px;max-width:68ch}
+.intro h1{font-size:clamp(32px,4.4vw,52px);font-weight:800}
+.intro p{color:var(--muted);font-size:18px}
+.sec{display:grid;gap:20px}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.sec-h h2{font-size:clamp(24px,2.6vw,32px);font-weight:800}
+.dim{font:500 13px var(--f-t);color:var(--muted);font-variant-numeric:tabular-nums}
+.row{display:grid;gap:28px;align-items:start}
+.row-video{grid-template-columns:minmax(0,420px) 1fr}
+.row-2{grid-template-columns:1fr minmax(0,380px)}
+@media (max-width:860px){.row-video,.row-2{grid-template-columns:1fr}}
+.frame{position:relative;width:100%;overflow:hidden;border-radius:18px;box-shadow:0 1px 2px rgba(6,46,34,.08),0 14px 40px rgba(6,46,34,.14);max-width:100%}
+.frame .ad{position:absolute;top:0;left:0;transform-origin:0 0}
+.side{display:grid;gap:16px;align-content:start;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px}
+.card h3{font-size:18px;font-weight:700}
+.card p,.card li{color:var(--muted);font-size:15px}
+.card ol{margin:0;padding-left:20px;display:grid;gap:8px}
+.card b{color:var(--fg)}
+.copy{white-space:pre-wrap;font:400 15px/1.55 var(--f-t);color:var(--fg);background:var(--bg);border-radius:10px;padding:12px 14px;border:1px solid var(--line)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--accent);background:transparent;color:var(--fg);font:700 15px/1 var(--f-d);cursor:pointer}
+.btn.primary{background:#0F6B50;border-color:#0F6B50;color:#fff}
+.btn:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.player{display:grid;gap:12px}
+.ctrls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.scrub{flex:1;min-width:140px;accent-color:#0F6B50}
+.time{font:600 13px var(--f-t);font-variant-numeric:tabular-nums;color:var(--muted);min-width:64px;text-align:right}
+.scenes{display:grid;grid-template-columns:3fr 4fr 5fr 3fr;gap:4px}
+.scenes button{border:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 6px;font:600 12px/1.25 var(--f-t);color:var(--muted);cursor:pointer;text-align:left}
+.scenes button.on{border-color:#0F6B50;color:var(--fg);background:var(--piste-50)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .scenes button.on{background:#12382B}}
+:root[data-theme="dark"] .scenes button.on{background:#12382B}
+.display-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.display-row .frame{width:auto}
+
+/* ====== PUBS (charte fixe) ====== */
+.ad{font-family:var(--f-t);color:#fff;overflow:hidden}
+.logo{display:flex;align-items:center;gap:.32em;font:800 1em/1 var(--f-d);letter-spacing:-.02em}
+.logo svg{width:1.55em;height:1.55em;flex:none}
+.logo .w2{color:var(--podium)}
+.logo.on-light{color:var(--encre)}
+.logo.on-light .w2{color:var(--piste)}
+.state{display:inline-flex;align-items:center;gap:.5em;border-radius:999px;font:700 1em/1 var(--f-d);padding:.55em .95em;background:var(--piste-100);color:var(--piste-700);white-space:nowrap}
+.state i{width:.42em;height:.42em;border-radius:50%;background:currentColor;display:inline-block;opacity:.3}
+.state i.on{opacity:1}
+.tb{display:inline-flex;align-items:center;gap:.5em;border:2px solid rgba(255,255,255,.4);border-radius:999px;padding:.6em 1em;font:600 1em/1 var(--f-t);white-space:nowrap}
+.tb svg{width:1.2em;height:1.2em;fill:none;stroke:var(--podium);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tb.light{border-color:var(--piste);color:var(--encre)}
+.tb.light svg{stroke:var(--piste)}
+.cta{display:inline-flex;align-items:center;gap:.5em;border-radius:999px;background:var(--orange);color:#fff;font:700 1em/1 var(--f-d);padding:.85em 1.4em;white-space:nowrap}
+.cta svg{width:1.1em;height:1.1em;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.prodcard{position:absolute;background:#fff;border-radius:40px;overflow:hidden}
+.prodcard img{width:100%;height:100%;object-fit:contain;display:block}
+.sticker{position:absolute;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.sticker b{display:block;font:800 1em/1 var(--f-d);letter-spacing:-.02em;white-space:nowrap}
+.sticker > div{max-width:80%}
+.sticker small{display:block;font:500 .26em/1.2 var(--f-t);opacity:.95;margin-top:.15em}
+.loopbg{position:absolute;pointer-events:none;opacity:.07}
+
+/* Carré 1:1 */
+.sq{width:1080px;height:1080px;background:var(--nuit)}
+.sq .logo{position:absolute;left:72px;top:68px;font-size:44px;color:#fff}
+.sq .tag{position:absolute;right:72px;top:72px;font:600 26px/1 var(--f-t);color:#CFE2D9}
+.sq h2{position:absolute;left:72px;top:160px;width:936px;font-size:84px;font-weight:800;color:#fff;line-height:1}
+.sq h2 em{font-style:normal;color:var(--podium)}
+.sq .prodcard{right:56px;top:390px;width:560px;height:470px}
+.sq .prodcard .state{position:absolute;left:24px;top:24px;font-size:26px}
+.sq .sticker{width:230px;height:230px;left:110px;top:615px;font-size:80px}
+.sq .meta{position:absolute;left:72px;top:400px;width:370px;display:grid;gap:10px;font:500 28px/1.3 var(--f-t);color:#CFE2D9}
+.sq .meta b{font:700 34px/1.15 var(--f-d);color:#fff}
+.sq .bottom{position:absolute;left:72px;right:56px;bottom:64px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.sq .tbs{display:flex;flex-direction:column;gap:12px;font-size:24px}
+.sq .cta{font-size:36px}
+.sq .loopbg{width:620px;right:-170px;top:-170px}
+
+/* Story 9:16 */
+.st{width:1080px;height:1920px;background:var(--craie);color:var(--encre)}
+.st::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(15,107,80,.06) 0 22px,transparent 22px 44px)}
+.st .logo{position:absolute;left:80px;top:96px;font-size:48px}
+.st .kicker{position:absolute;left:80px;top:230px;font:600 30px/1 var(--f-t);letter-spacing:.1em;text-transform:uppercase;color:var(--piste)}
+.st h2{position:absolute;left:80px;top:290px;width:920px;font-size:128px;font-weight:800;line-height:.98;color:var(--encre)}
+.st h2 em{font-style:normal;color:var(--piste)}
+.st .prodcard{left:72px;top:600px;width:936px;height:760px;box-shadow:0 30px 60px rgba(6,46,34,.14)}
+.st .prodcard .state{position:absolute;left:32px;top:32px;font-size:34px}
+.st .zoom{position:absolute;right:56px;bottom:56px;width:240px;height:240px;border-radius:50%;overflow:hidden;border:6px dashed var(--orange);background:#fff}
+.st .zoom img{position:absolute;width:960px;height:auto;left:-694px;top:-450px}
+.st .zoom-l{position:absolute;left:32px;bottom:32px;background:var(--encre);color:#fff;font:600 28px/1 var(--f-t);padding:14px 20px;border-radius:999px}
+.st .sticker{width:280px;height:280px;right:60px;top:500px;font-size:100px}
+.st .price{position:absolute;left:80px;top:1410px;display:flex;align-items:baseline;gap:22px}
+.st .price b{font:800 120px/1 var(--f-d);letter-spacing:-.02em;color:var(--encre)}
+.st .price s{font:500 40px var(--f-t);color:var(--ardoise)}
+.st .tbs{position:absolute;left:80px;top:1570px;display:flex;gap:14px;flex-wrap:wrap;width:920px;font-size:30px}
+.st .cta{position:absolute;left:80px;right:80px;bottom:110px;justify-content:center;font-size:46px;padding:1em}
+.st .url{position:absolute;left:0;right:0;bottom:56px;text-align:center;font:600 28px var(--f-t);color:var(--ardoise)}
+
+/* Display 300x250 */
+.mr{width:300px;height:250px;background:var(--nuit)}
+.mr .logo{position:absolute;left:14px;top:13px;font-size:15px}
+.mr .ph{position:absolute;left:14px;top:44px;width:140px;height:132px;background:#fff;border-radius:14px;overflow:hidden}
+.mr .ph img{width:100%;height:100%;object-fit:contain}
+.mr .txt{position:absolute;left:166px;top:46px;right:12px;display:grid;gap:6px}
+.mr .txt b{font:800 19px/1.05 var(--f-d)}
+.mr .state{font-size:11px;justify-self:start}
+.mr .p{font:800 28px/1 var(--f-d);color:var(--podium)}
+.mr .p s{font:500 11px var(--f-t);color:#CFE2D9;display:block;margin-top:3px}
+.mr .foot{position:absolute;left:14px;right:14px;bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.mr .foot span{font:600 10.5px/1.25 var(--f-t);color:#CFE2D9}
+.mr .cta{font-size:13px;padding:.7em 1.1em}
+
+/* Leaderboard 728x90 */
+.lb{width:728px;height:90px;background:var(--nuit);display:flex;align-items:center;gap:14px;padding:0 14px}
+.lb .logo{font-size:16px;flex:none}
+.lb .ph{width:86px;height:66px;background:#fff;border-radius:10px;overflow:hidden;flex:none}
+.lb .ph img{width:100%;height:100%;object-fit:contain}
+.lb .txt{flex:1;min-width:0;display:grid;gap:4px}
+.lb .txt b{font:800 19px/1.05 var(--f-d)}
+.lb .txt span{font:500 12px var(--f-t);color:#CFE2D9}
+.lb .p{font:800 28px/1 var(--f-d);color:var(--podium);flex:none;text-align:right}
+.lb .p s{display:block;font:500 11px var(--f-t);color:#CFE2D9}
+.lb .cta{font-size:14px;padding:.75em 1.1em;flex:none}
+
+/* Vidéo 9:16 — version pro */
+.vd{width:1080px;height:1920px;background:var(--nuit)}
+.vd .layer{position:absolute;inset:0}
+.vd .bgimg{position:absolute;inset:-4%;background-size:cover;background-position:center;will-change:transform,filter}
+.vd .open .bgimg{background-image:url("img/vid-open.jpg"),linear-gradient(160deg,#0C3B6B,#062E22)}
+.vd .open::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,46,34,.82) 0%,rgba(6,46,34,.35) 38%,rgba(6,46,34,0) 60%,rgba(6,46,34,.6) 100%)}
+.vd .grain{position:absolute;inset:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.vd .vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 220px rgba(0,0,0,.35)}
+.vd .loopbg2{position:absolute;width:900px;right:-300px;top:-260px;opacity:.06}
+.vd .kin{position:absolute;left:80px;right:80px;top:250px;font:800 122px/1.02 var(--f-d);letter-spacing:-.025em;color:#fff;display:flex;flex-wrap:wrap;gap:0 26px}
+.vd .kin .m{display:inline-block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.vd .kin .m > span{display:inline-block;will-change:transform}
+.vd .kin .k{color:var(--podium)}
+.vd .cam{position:absolute;inset:0;will-change:transform}
+.vd .stage{position:absolute;left:72px;top:420px;width:936px;height:884px;border-radius:44px;overflow:hidden;background:#fff;box-shadow:0 40px 90px rgba(0,0,0,.45);will-change:transform,opacity,filter}
+.vd .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transform-origin:86% 74%;will-change:transform,filter}
+.vd .shine{position:absolute;inset:0;background:linear-gradient(105deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.55) 50%,rgba(255,255,255,0) 60%);transform:translateX(-120%)}
+.vd .focus{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none;overflow:visible}
+.vd .dlabel{position:absolute;left:96px;top:1336px;background:#fff;color:var(--encre);font:700 40px/1 var(--f-d);padding:22px 30px;border-radius:999px;display:flex;align-items:center;gap:14px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.vd .dlabel i{width:18px;height:18px;border-radius:50%;background:var(--orange)}
+.vd .vstate{position:absolute;left:104px;top:452px;font-size:40px}
+.vd .vstate .state{overflow:hidden;position:relative}
+.vd .vtbs{position:absolute;left:80px;top:1328px;display:grid;gap:14px;font-size:34px;color:#fff}
+.vd .vtbs .tb{background:rgba(6,46,34,.6);backdrop-filter:blur(6px)}
+.vd .was{position:absolute;right:70px;top:226px;font:700 64px/1 var(--f-d);color:#CFE2D9}
+.vd .was i{position:absolute;left:-6px;right:-6px;top:52%;height:7px;border-radius:4px;background:var(--orange);transform-origin:left}
+.vd .vsticker{width:300px;height:300px;right:28px;top:330px;font-size:108px}
+.vd .shock{position:absolute;width:300px;height:300px;right:28px;top:330px;border-radius:50%;border:6px solid var(--orange)}
+.vd .vlogo{position:absolute;left:80px;top:72px;font-size:40px;color:#fff}
+.vd .flash{position:absolute;inset:0;background:#fff;pointer-events:none}
+.vd .end{position:absolute;inset:0;overflow:hidden}
+.vd .end .bgimg{background-image:url("img/vid-end.jpg"),linear-gradient(180deg,#0C2340,#062E22)}
+.vd .end .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,46,34,.55),rgba(6,46,34,.78) 45%,rgba(6,46,34,.92))}
+.vd .end .inner{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:44px;text-align:center}
+.vd .end .mark{width:220px;height:220px}
+.vd .end .word{font:800 104px/1 var(--f-d);letter-spacing:-.02em;color:#fff;display:flex;gap:.28em}
+.vd .end .word span{display:inline-block}
+.vd .end .word .w2{color:var(--podium)}
+.vd .end .tag{font:800 74px/1.06 var(--f-d);color:#fff;width:880px;display:flex;flex-wrap:wrap;justify-content:center;gap:0 20px}
+.vd .end .tag .m{display:inline-block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.vd .end .tag .m > span{display:inline-block}
+.vd .end .tag .k{color:var(--podium)}
+.vd .end .ctaw{position:relative}
+.vd .end .cta{font-size:48px;position:relative}
+.vd .end .pulse{position:absolute;inset:0;border-radius:999px;border:4px solid var(--orange)}
+.vd .end .url{font:600 34px var(--f-t);color:#CFE2D9}
+.vd .sub{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);width:max-content;max-width:940px;background:rgba(6,46,34,.9);color:#fff;font:800 66px/1.18 var(--f-t);letter-spacing:-.01em;text-align:center;padding:22px 30px 26px;border-radius:28px;border:2px solid rgba(255,255,255,.14);box-shadow:0 18px 40px rgba(0,0,0,.35);display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px}
+.vd .sub .w{display:inline-block;padding:2px 10px;border-radius:14px;transform-origin:50% 80%;will-change:transform,opacity}
+.vd .sub .w.k{color:var(--podium)}
+.vd .sub .w.now{background:var(--podium);color:var(--nuit)}
+.vd .vprog{position:absolute;left:0;right:0;top:0;height:8px;background:rgba(255,255,255,.12);z-index:5}
+.vd .vprog i{display:block;height:100%;background:var(--podium);transform-origin:left}
+
+/* Mode rendu (export PNG / images de la vidéo) */
+body.render{background:transparent}
+body.render .page{display:block;padding:0;max-width:none}
+body.render .page > *:not(.render-host){display:none}
+body.render .render-host{display:block}
+.render-host{display:none}
+body.render .render-host .ad{position:relative;transform:none}
+body.render .vd .vprog{display:none}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="logo" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0F6B50"/><path d="M45 21 A17 17 0 1 0 49 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M49.5 26 L57 36 L42 36 Z" fill="#fff"/><circle cx="32" cy="32" r="5.5" fill="#FF5A1F"/></symbol>
+  <symbol id="loop" viewBox="0 0 64 64"><path d="M45 21 A17 17 0 1 0 49 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M49.5 26 L57 36 L42 36 Z" fill="#fff"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-return" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 010 10h-3"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</defs></svg>
+
+<main class="page">
+  <header class="intro">
+    <span class="eyebrow">Pub produit · Sport Again</span>
+    <h1>Skis all-mountain 170 cm, 189 €</h1>
+    <p>Une vidéo de 16 secondes et trois formats image, construits sur le brand book : on répond au doute sur l’état avant qu’il ne se pose, avec le défaut photographié, la note « Très bon » et le retour 14 jours.</p>
+  </header>
+
+  <section class="sec" aria-labelledby="h-video">
+    <div class="sec-h"><h2 id="h-video">Vidéo 16 secondes</h2><span class="dim">Reels / Story · 1080 × 1920 · voix off, musique, effets sonores, sous-titres animés</span></div>
+    <div class="row row-video">
+      <div class="player">
+        <div class="frame" data-w="1080" data-h="1920"><div class="ad vd" id="video" aria-label="Pub vidéo des skis all-mountain"></div></div>
+        <div class="ctrls">
+          <button class="btn primary" type="button" id="playBtn" aria-label="Lecture">▶ Lecture</button>
+          <button class="btn" type="button" id="soundBtn" aria-pressed="true">🔊 Son</button>
+          <audio id="vo" src="img/bande-son-skis.mp4" preload="auto"></audio>
+          <label class="sr" for="scrub" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Position dans la vidéo</label>
+          <input class="scrub" id="scrub" type="range" min="0" max="16" step="0.01" value="0">
+          <span class="time" id="time">0,0 / 16 s</span>
+        </div>
+        <div class="scenes" id="scenes">
+          <button type="button" data-t="0">0–3 s · Le doute</button>
+          <button type="button" data-t="3">3–7 s · Le défaut cadré</button>
+          <button type="button" data-t="7">7–12 s · Contrôlé, 14 jours</button>
+          <button type="button" data-t="12">12–16 s · Signature</button>
+        </div>
+      </div>
+      <div class="side">
+        <div class="card"><h3>Le scénario</h3>
+          <ol>
+            <li><b>Le doute.</b> « Et si l’état n’était pas celui des photos ? » La peur de Camille, posée d’entrée.</li>
+            <li><b>La preuve.</b> Zoom sur la spatule : la marque est cadrée et nommée. On montre le défaut au lieu de le cacher.</li>
+            <li><b>La réassurance.</b> Note « Très bon », contrôlé par un revendeur pro, retour 14 jours, puis le prix : 189 € au lieu de 449 € neuf.</li>
+            <li><b>La signature.</b> Logo et promesse : « La seconde main sans mauvaise surprise. »</li>
+          </ol>
+          <p><b>Son</b> (généré avec ElevenLabs) : musique électro-pop 110 BPM qui s’efface sous la voix, effets calés sur l’image (glisse de skis, whooshs de transition, déclic de mise au point, pop du badge, tampon du prix, signature 2 notes sur le logo).</p>
+          <p><b>Voix off</b> (Victor, voix française chaleureuse) : « Et si l’état n’était pas celui des photos ? · Chez Sport Again, chaque défaut est cadré et nommé. · Contrôlé par un revendeur pro. Retour quatorze jours. Cent quatre-vingt-neuf euros. · Sport Again. La seconde main, sans mauvaise surprise. »</p>
+        </div>
+        <div class="card"><h3>Pourquoi ça marche</h3><p>Le problème P2 de l’audit : l’occasion fait peur (état, litige) et le compte Instagram ne montre aucun produit réel. Cette pub montre un vrai article, son vrai défaut et les garanties, dans le ton tutoyé du registre B2C.</p></div>
+        <div class="card"><h3>Légende Instagram</h3><p class="copy">Tes skis de la saison sont déjà là. All-mountain 170 cm, état « Très bon », contrôlés par un revendeur pro. La petite marque sur la spatule ? Elle est en photo. Et s’ils ne te vont pas, tu as 14 jours pour les renvoyer.
+189 € au lieu de 449 € neuf. Lien en bio.
+
+#SportAgain #SecondeMain #Ski #Lyon</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-sq">
+    <div class="sec-h"><h2 id="h-sq">Carré et Story</h2><span class="dim">Feed 1080 × 1080 · Story 1080 × 1920</span></div>
+    <div class="row row-2">
+      <div class="frame" data-w="1080" data-h="1080"><div class="ad sq" id="square"></div></div>
+      <div class="frame" data-w="1080" data-h="1920"><div class="ad st" id="story"></div></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-disp">
+    <div class="sec-h"><h2 id="h-disp">Display et Google Ads</h2><span class="dim">300 × 250 · 728 × 90 (taille réelle)</span></div>
+    <div class="display-row">
+      <div class="frame" data-w="300" data-h="250" data-fixed><div class="ad mr" id="mrec"></div></div>
+      <div style="overflow-x:auto;max-width:100%;border-radius:18px"><div class="frame" data-w="728" data-h="90" data-fixed style="width:728px"><div class="ad lb" id="leader"></div></div></div>
+    </div>
+    <div class="card" style="max-width:640px"><h3>Annonce Google Ads (texte)</h3>
+      <p class="copy">Titre 1 : Skis d’occasion contrôlés
+Titre 2 : 189 € au lieu de 449 € neuf
+Description : Skis all-mountain 170 cm, état « Très bon », défauts en photo. Contrôlés par un revendeur pro, retour 14 jours.</p>
+      <p class="dim">Titres de 25 et 27 caractères (limite 30), description de 88 caractères (limite 90).</p>
+    </div>
+  </section>
+
+  <div class="render-host" id="renderHost"></div>
+</main>
+
+<script>
+(() => {
+const IMG = 'img/skis-170.jpg';
+const logo = (light) => `<span class="logo ${light?'on-light':''}"><svg aria-hidden="true"><use href="#logo"/></svg><span>sport <span class="w2">again</span></span></span>`;
+const state = `<span class="state">Très bon <i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>`;
+const tb = (ic, t, light) => `<span class="tb ${light?'light':''}"><svg><use href="#i-${ic}"/></svg>${t}</span>`;
+const cta = (t) => `<span class="cta">${t}<svg><use href="#i-arrow"/></svg></span>`;
+const loop = (cls) => `<svg class="loopbg ${cls||''}" viewBox="0 0 64 64" aria-hidden="true"><use href="#loop"/></svg>`;
+
+const ADS = {
+  square: () => `
+    ${loop()}
+    ${logo()}
+    <span class="tag">Skis · Lyon</span>
+    <h2>Tes skis de la saison. <em>Sans mauvaise surprise.</em></h2>
+    <div class="meta"><b>Skis all-mountain 170 cm</b>Marque sur la spatule, photographiée. Le reste est nickel.</div>
+    <div class="prodcard"><img src="${IMG}" alt="Skis all-mountain 170 cm">${state}</div>
+    <div class="sticker"><div><b>189 €</b><small>au lieu de 449 € neuf</small></div></div>
+    <div class="bottom"><div class="tbs">${tb('shield','Contrôlé par un revendeur pro')}${tb('return','Retour 14 jours')}</div>${cta('Voir les skis')}</div>`,
+  story: () => `
+    ${logo(true)}
+    <span class="kicker">Skis all-mountain · 170 cm</span>
+    <h2>Prêts pour <em>la saison.</em></h2>
+    <div class="prodcard"><img src="${IMG}" alt="Skis all-mountain 170 cm">${state}
+      <span class="zoom-l">Marque sur la spatule, en photo</span></div>
+    <div class="sticker"><div><b>−58 %</b><small>vs prix neuf</small></div></div>
+    <div class="price"><b>189 €</b><s>449 € neuf</s></div>
+    <div class="tbs">${tb('shield','Contrôlé par un revendeur pro',1)}${tb('return','Retour 14 jours',1)}</div>
+    ${cta('Voir les skis')}
+    <span class="url">sportagain.fr</span>`,
+  mrec: () => `
+    ${logo()}
+    <div class="ph"><img src="${IMG}" alt="Skis all-mountain"></div>
+    <div class="txt"><b>Skis all-mountain 170 cm</b>${state}<span class="p">189 €<s>449 € neuf</s></span></div>
+    <div class="foot"><span>Contrôlé par un pro<br>Retour 14 jours</span>${cta('Découvrir')}</div>`,
+  leader: () => `
+    ${logo()}
+    <div class="ph"><img src="${IMG}" alt="Skis all-mountain"></div>
+    <div class="txt"><b>Skis all-mountain 170 cm · Très bon</b><span>Contrôlés par un pro · Retour 14 jours</span></div>
+    <span class="p">189 €<s>449 € neuf</s></span>
+    ${cta('Découvrir')}`,
+  video: () => `
+    <div class="vprog"><i id="vbar"></i></div>
+    <svg class="loopbg2" viewBox="0 0 64 64" aria-hidden="true"><use href="#loop"/></svg>
+    <div class="layer open" id="vOpen"><div class="bgimg" id="vOpenImg"></div></div>
+    <div class="kin" id="vKin"></div>
+    <div class="cam" id="vCam">
+      <div class="stage" id="vStage"><img src="${IMG}" alt="Skis all-mountain 170 cm" id="vImg"><div class="shine" id="vShine"></div></div>
+      <svg class="focus" id="vFocus" viewBox="0 0 1080 1920" aria-hidden="true">
+        <circle id="vRingC" cx="877" cy="1074" r="112" fill="none" stroke="#FF5A1F" stroke-width="8" stroke-dasharray="14 12" pathLength="100"/>
+        <g id="vBrk" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round">
+          <path d="M727 964 v-40 h40"/><path d="M1027 964 v-40 h-40"/><path d="M727 1184 v40 h40"/><path d="M1027 1184 v40 h-40"/>
+        </g>
+      </svg>
+      <div class="dlabel" id="vLabel"><i></i>Marque sur la spatule, en photo</div>
+      <div class="vstate" id="vState">${state}</div>
+      <div class="vtbs" id="vTbs">${tb('shield','Contrôlé par un revendeur pro')}${tb('return','Retour 14 jours')}</div>
+      <div class="was" id="vWas">449 € neuf<i id="vStrike"></i></div>
+      <div class="shock" id="vShock"></div>
+      <div class="sticker vsticker" id="vSticker"><div><b>189 €</b><small>au lieu de 449 € neuf</small></div></div>
+    </div>
+    <div class="vlogo" id="vLogo">${logo()}</div>
+    <div class="end" id="vEnd">
+      <div class="bgimg" id="vEndImg"></div><div class="shade"></div>
+      <div class="inner">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect id="mRect" width="64" height="64" rx="16" fill="#0F6B50"/><path id="mLoop" d="M45 21 A17 17 0 1 0 49 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" pathLength="100"/><path id="mTri" d="M49.5 26 L57 36 L42 36 Z" fill="#fff"/><circle id="mDot" cx="32" cy="32" r="5.5" fill="#FF5A1F"/></svg>
+        <div class="word"><span id="w1">sport</span><span class="w2" id="w2">again</span></div>
+        <div class="tag" id="vTag"></div>
+        <div class="ctaw" id="vCtaW"><span class="pulse" id="vPulse"></span>${cta('Voir les skis')}</div>
+        <span class="url" id="vUrl">sportagain.fr</span>
+      </div>
+    </div>
+    <div class="flash" id="vFlash"></div>
+    <div class="vignette"></div>
+    <div class="sub" id="vSub"></div>`
+};
+
+/* ---------- Animation de la vidéo : fonction pure du temps t (0 à 16 s) ---------- */
+const clamp = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const ease = x => { x=clamp(x); return x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2; };
+const easeOut = x => 1-Math.pow(1-clamp(x),3);
+const back = x => { x=clamp(x); const c1=1.70158,c3=c1+1; return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2); };
+const seg = (t,a,b) => clamp((t-a)/(b-a));
+/* Sous-titres dynamiques : chaque mot apparaît quand Victor le dit.
+   [début de parole, fin de parole, morceaux affichés l'un après l'autre]
+   mot = [texte affiché, poids (durée relative à l'oral), mot-clé ?] */
+const VOICE = [
+  [0.34, 2.45, [[['Et',2],['si',2],['l’état',5]], [['n’était',5],['pas',3],['celui',4],['des',3],['photos ?',7,1]]]],
+  [3.24, 6.37, [[['Chez',3],['Sport',5],['Again,',7]], [['chaque',5],['défaut',6,1]], [['est',2],['cadré,',7,1],['et',2],['nommé.',6,1]]]],
+  [7.24, 11.79, [[['Contrôlé',8,1],['par',3],['un',2],['revendeur',8],['pro.',5,1]], [['Retour',6],['sous',4],['14 jours.',11,1]], [['189 €',22,1]]]],
+  [12.44, 15.86, [[['Sport',5],['Again.',8,1]], [['La',2],['seconde',6],['main,',6]], [['sans',4],['mauvaise',6],['surprise.',9,1]]]]
+];
+const CUES = [];
+VOICE.forEach(([a,b,chunks])=>{
+  const all = chunks.flat(); const tot = all.reduce((x,w)=>x+w[1],0); let acc=a;
+  chunks.forEach(ch=>{
+    const words = ch.map(w=>{ const st=acc; acc += (b-a)*w[1]/tot; return {txt:w[0], k:!!w[2], st, en:acc}; });
+    CUES.push({st:words[0].st, en:words[words.length-1].en, words});
+  });
+});
+CUES.forEach((c,i)=>{ c.hold = i<CUES.length-1 ? Math.min(CUES[i+1].st, c.en+0.6) : 16.01; });
+function renderVideo(root, t){
+  const $ = id => root.querySelector('#'+id);
+  const set = (el, o, tr, f) => { if(!el) return; if(o!==undefined) el.style.opacity = clamp(o).toFixed(3); if(tr!==undefined) el.style.transform = tr; if(f!==undefined) el.style.filter = f; };
+  const blurF = b => b>0.05 ? `blur(${b.toFixed(2)}px)` : 'none';
+  // Mots animés synchronisés sur la voix (titre d'ouverture et signature)
+  if(!root.dataset.kinReady){
+    root.dataset.kinReady='1';
+    const words = i => VOICE[i][2].flat();
+    $('vKin').innerHTML = words(0).map(w=>`<span class="m"><span class="${w[2]?'k':''}">${w[0]}</span></span>`).join('');
+    $('vTag').innerHTML = words(3).slice(2).map(w=>`<span class="m"><span class="${w[2]?'k':''}">${w[0]}</span></span>`).join('');
+  }
+  const wordTimes = li => CUES.filter(c=>c.st>=VOICE[li][0]-0.01 && c.en<=VOICE[li][1]+0.01).flatMap(c=>c.words);
+  const reveal = (box, times) => [...box.children].forEach((m,j)=>{ const w=times[j]; if(!w) return; const p=easeOut(seg(t,w.st-0.08,w.st+0.22)); m.firstElementChild.style.transform=`translateY(${(110*(1-p)).toFixed(1)}%)`; });
+
+  // ---- Scène 1 : photo d'action, push-in, titre cinétique ----
+  const out1 = ease(seg(t,2.85,3.35));
+  set($('vOpen'), 1-out1);
+  set($('vOpenImg'), undefined, `scale(${(1.16-0.12*easeOut(seg(t,0,3.2))).toFixed(4)}) translate(${(-1.5*seg(t,0,3.2)).toFixed(2)}%, ${(-60*out1).toFixed(1)}%)`, blurF(22*out1));
+  set($('vKin'), 1-seg(t,2.8,3.1), `translateY(${(-80*out1).toFixed(1)}px)`, blurF(10*seg(t,2.85,3.2)));
+  reveal($('vKin'), wordTimes(0));
+
+  // ---- Scène 2 : carte produit (whip), zoom défaut, mise au point ----
+  const inS = easeOut(seg(t,2.95,3.55));
+  const zIn = ease(seg(t,3.75,4.75)), zOut = ease(seg(t,6.45,7.3));
+  const zoom = 1 + 1.75*zIn*(1-zOut);
+  const zSpeed = Math.max(seg(t,3.75,4.75)*(1-seg(t,3.75,4.75)), seg(t,6.45,7.3)*(1-seg(t,6.45,7.3)))*4;
+  const stage=$('vStage');
+  set(stage, inS, `translateY(${(380*(1-inS)).toFixed(1)}px) scale(${(0.88+0.12*inS).toFixed(4)})`, blurF(18*(1-inS)));
+  set($('vImg'), undefined, `scale(${zoom.toFixed(4)})`, blurF(6*zSpeed));
+  // repères de mise au point + cercle qui se dessine
+  const brk = seg(t,4.35,4.6)*(1-seg(t,6.3,6.55));
+  const bs = 1.35 - 0.35*back(seg(t,4.35,4.7));
+  $('vBrk').style.opacity = brk.toFixed(3);
+  $('vBrk').style.transform = `scale(${bs.toFixed(3)})`; $('vBrk').style.transformOrigin='877px 1074px';
+  const ringDraw = ease(seg(t,4.45,4.85));
+  const rc=$('vRingC'); rc.style.opacity = (seg(t,4.45,4.5)*(1-seg(t,6.3,6.6))).toFixed(3);
+  rc.setAttribute('stroke-dasharray', `${(ringDraw*100).toFixed(2)} 100`);
+  rc.setAttribute('transform', `rotate(${(-90+t*14).toFixed(2)} 877 1074)`);
+  const lab = easeOut(seg(t,4.9,5.35));
+  set($('vLabel'), lab*(1-seg(t,6.4,6.8)), `translateX(${(-80*(1-lab)).toFixed(1)}px)`);
+
+  // ---- Scène 3 : badge, garanties, prix tampon ----
+  const sp = seg(t,7.3,7.75);
+  set($('vState'), clamp(sp*3)*(1-seg(t,11.8,12.1)), `scale(${(0.5+0.5*back(sp)).toFixed(3)})`); $('vState').style.transformOrigin='left top';
+  set($('vShine'), 1, `translateX(${(-120+240*ease(seg(t,7.6,8.4))).toFixed(1)}%)`);
+  const tbs=[...$('vTbs').children];
+  tbs.forEach((el,i)=>{ const p=easeOut(seg(t,7.95+i*0.22,8.45+i*0.22)); set(el, p*(1-seg(t,11.8,12.1)), `translateX(${(-120*(1-p)).toFixed(1)}px)`, blurF(8*(1-p))); });
+  const wa = easeOut(seg(t,9.5,9.9));
+  set($('vWas'), wa*(1-seg(t,11.8,12.1)), `translateY(${(30*(1-wa)).toFixed(1)}px)`);
+  $('vStrike').style.transform = `scaleX(${ease(seg(t,9.95,10.25)).toFixed(3)})`;
+  const kp = seg(t,10.25,10.55);
+  const kScale = kp<=0 ? 2.4 : (kp<1 ? 2.4-1.4*ease(kp) : 1+0.06*Math.sin((t-10.55)*18)*Math.exp(-(t-10.55)*7));
+  set($('vSticker'), clamp(kp*4)*(1-seg(t,11.8,12.1)), `rotate(${(-8-10*(1-ease(kp))).toFixed(2)}deg) scale(${kScale.toFixed(3)})`);
+  const sh = seg(t,10.52,11.1);
+  set($('vShock'), sh>0 ? (1-sh)*0.9 : 0, `scale(${(1+0.9*easeOut(sh)).toFixed(3)})`);
+  // secousse caméra à l'impact
+  const sk = seg(t,10.52,10.85); const amp = 14*(1-sk)*(sk>0?1:0);
+  $('vCam').style.transform = `translate(${(amp*Math.sin(t*95)).toFixed(1)}px, ${(amp*Math.cos(t*120)).toFixed(1)}px)`;
+  const lo = easeOut(seg(t,7.1,7.6));
+  set($('vLogo'), lo*(1-seg(t,11.8,12.1)), `translateY(${(-30*(1-lo)).toFixed(1)}px)`);
+  // la carte s'efface avant la fin
+  if(t>11.8) set(stage, 1-seg(t,11.9,12.3), `scale(${(1-0.06*ease(seg(t,11.9,12.3))).toFixed(4)})`, blurF(10*seg(t,11.9,12.3)));
+
+  // ---- Scène 4 : ouverture circulaire, logo qui se dessine, signature ----
+  const wipe = ease(seg(t,11.95,12.6));
+  const end=$('vEnd');
+  end.style.clipPath = `circle(${(wipe*130).toFixed(2)}% at 82% 25%)`;
+  end.style.opacity = wipe>0 ? '1' : '0';
+  set($('vEndImg'), undefined, `scale(${(1.14-0.12*easeOut(seg(t,11.95,16))).toFixed(4)})`);
+  const r = back(seg(t,12.25,12.65));
+  $('mRect').setAttribute('transform', `translate(32 32) scale(${clamp(r,0,1.3).toFixed(3)}) translate(-32 -32)`);
+  const lp=$('mLoop'); const ld=ease(seg(t,12.5,13)); lp.setAttribute('stroke-dasharray', `${(ld*100).toFixed(2)} 100`); lp.style.opacity = ld>0.01 ? '1' : '0';
+  $('mTri').style.opacity = seg(t,12.9,13.05).toFixed(3);
+  const d = back(seg(t,13.0,13.3)); $('mDot').setAttribute('r', (5.5*clamp(d,0,1.4)).toFixed(2));
+  const w1=easeOut(seg(t,12.75,13.15)), w2=easeOut(seg(t,12.85,13.25));
+  set($('w1'), w1, `translateX(${(-90*(1-w1)).toFixed(1)}px)`, blurF(8*(1-w1)));
+  set($('w2'), w2, `translateX(${(90*(1-w2)).toFixed(1)}px)`, blurF(8*(1-w2)));
+  reveal($('vTag'), wordTimes(3).slice(2));
+  const cp = seg(t,14.5,14.85);
+  set($('vCtaW'), clamp(cp*3), `scale(${(0.6+0.4*back(cp)).toFixed(3)})`);
+  const pu = ((t-14.9)%0.9)/0.9;
+  set($('vPulse'), t>14.9 ? 0.8*(1-pu) : 0, `scale(${(1+0.25*pu).toFixed(3)})`);
+  set($('vUrl'), seg(t,14.8,15.2));
+
+  // ---- Flashs de transition ----
+  const fl = Math.max(1-Math.abs(t-3.02)/0.12, 1-Math.abs(t-12.0)/0.1, 0);
+  $('vFlash').style.opacity = (0.55*fl).toFixed(3);
+
+  // ---- Sous-titres karaoké (scènes 2 et 3 ; les scènes 1 et 4 ont le texte à l'écran) ----
+  const sub=$('vSub');
+  const ci = (t>=3.0 && t<12.1) ? CUES.findIndex(c=>t>=c.st-0.05 && t<c.hold) : -1;
+  if(ci<0){ sub.style.opacity='0'; }
+  else {
+    const c=CUES[ci];
+    if(sub.dataset.cue!==String(ci)){ sub.dataset.cue=String(ci); sub.innerHTML=c.words.map(w=>`<span class="w${w.k?' k':''}">${w.txt}</span>`).join(''); }
+    const boxIn = back(seg(t,c.st-0.05,c.st+0.15));
+    sub.style.opacity = (1-seg(t,11.8,12.05)).toFixed(3);
+    sub.style.transform = `translateX(-50%) translateY(${(24*(1-clamp(boxIn))).toFixed(1)}px) scale(${(0.94+0.06*boxIn).toFixed(3)})`;
+    [...sub.children].forEach((el,j)=>{
+      const w=c.words[j], p=seg(t,w.st-0.04,w.st+0.16);
+      el.style.opacity = (0.18+0.82*clamp(p*1.6)).toFixed(3);
+      el.style.transform = `translateY(${(18*(1-easeOut(p))).toFixed(1)}px) scale(${(0.85+0.15*back(p)).toFixed(3)})`;
+      el.classList.toggle('now', t>=w.st && t<w.en+0.08);
+    });
+  }
+  const bar=$('vbar'); if(bar) bar.style.transform = `scaleX(${(t/16).toFixed(4)})`;
+}
+
+/* ---------- Montage ---------- */
+Object.entries(ADS).forEach(([id,fn])=>{ const el=document.getElementById(id); if(el) el.innerHTML=fn(); });
+const params = new URLSearchParams(location.search);
+const renderId = params.get('render');
+if(renderId && ADS[renderId]){
+  document.body.classList.add('render');
+  const host=document.getElementById('renderHost');
+  const src=document.getElementById(renderId);
+  host.appendChild(src);
+  if(renderId==='video') renderVideo(src, parseFloat(params.get('t')||'0'));
+  return;
+}
+
+function fit(){
+  document.querySelectorAll('.frame').forEach(f=>{
+    const w=+f.dataset.w, h=+f.dataset.h, ad=f.querySelector('.ad');
+    if(f.hasAttribute('data-fixed')){ f.style.width=w+'px'; f.style.height=h+'px'; ad.style.transform='none'; return; }
+    const s=f.clientWidth/w; ad.style.transform=`scale(${s})`; f.style.height=(h*s)+'px';
+  });
+}
+fit(); new ResizeObserver(fit).observe(document.body);
+
+/* ---------- Lecteur ---------- */
+const video=document.getElementById('video'), scrub=document.getElementById('scrub'), time=document.getElementById('time'), playBtn=document.getElementById('playBtn'), scenes=[...document.querySelectorAll('#scenes button')];
+let t=0, playing=false, last=0;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function show(){ renderVideo(video,t); scrub.value=t; time.textContent=t.toFixed(1).replace('.',',')+' / 16 s'; scenes.forEach((b,i)=>b.classList.toggle('on', t>=+b.dataset.t && (i===scenes.length-1 || t<+scenes[i+1].dataset.t))); }
+function frame(now){ if(!playing) return; t=Math.min(16,t+(now-last)/1000); last=now; show(); if(t>=16){ setPlay(false); return; } requestAnimationFrame(frame); }
+const vo=document.getElementById('vo'), soundBtn=document.getElementById('soundBtn');
+let soundOn=true;
+function syncAudio(){ if(!playing||!soundOn){ vo.pause(); return; } if(Math.abs(vo.currentTime-t)>0.15) vo.currentTime=t; const pr=vo.play(); if(pr&&pr.catch) pr.catch(()=>{ setSound(false); }); }
+function setSound(on){ soundOn=on; soundBtn.textContent=on?'🔊 Son':'🔇 Activer le son'; soundBtn.setAttribute('aria-pressed',on); syncAudio(); }
+soundBtn.addEventListener('click',()=>setSound(!soundOn));
+function setPlay(on){ playing=on; playBtn.textContent = on?'❚❚ Pause':(t>=16?'↺ Rejouer':'▶ Lecture'); playBtn.setAttribute('aria-label', on?'Pause':'Lecture'); if(on){ if(t>=16) t=0; last=performance.now(); requestAnimationFrame(frame);} syncAudio(); }
+playBtn.addEventListener('click',()=>setPlay(!playing));
+scrub.addEventListener('input',()=>{ t=+scrub.value; show(); vo.currentTime=Math.min(t,15.99); });
+scenes.forEach(b=>b.addEventListener('click',()=>{ t=+b.dataset.t+0.01; show(); vo.currentTime=t; if(!playing) setPlay(true); else syncAudio(); }));
+document.querySelector('.player .frame').addEventListener('click',()=>setPlay(!playing));
+t = reduce ? 9.8 : 0; show();
+if(!reduce){ const io=new IntersectionObserver(([e])=>{ if(e.isIntersecting && t===0 && !playing){ soundOn=false; soundBtn.textContent='🔇 Activer le son'; soundBtn.setAttribute('aria-pressed','false'); setPlay(true); io.disconnect(); } },{threshold:.5}); io.observe(video); }
+})();
+</script>

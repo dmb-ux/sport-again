@@ -1,0 +1,1337 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sport Again</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout : en-tête collant, vues par hash (accueil / acheter / produit / vendre / aide), panier en tiroir, barre d'onglets mobile. Charte : brand book Sport Again v1.0 */
+:root{
+  --piste-50:#E8F4EF; --piste-100:#C9E6DA; --piste:#0F6B50; --piste-700:#0A4D39; --nuit:#062E22;
+  --orange:#FF5A1F; --podium:#FFC93C; --succes:#1F7A45; --alerte:#9A5B00; --erreur:#C62828;
+  --encre:#14201C; --ardoise:#55625D; --brume:#D9DDD8; --craie:#F6F3EC; --blanc:#FFFFFF;
+
+  --bg:var(--craie); --surface:var(--blanc); --soft:var(--piste-50); --soft-2:var(--piste-100);
+  --fg:var(--encre); --muted:var(--ardoise); --line:var(--brume);
+  --primary:var(--piste); --primary-strong:var(--piste-700); --on-primary:#FFFFFF;
+  --link:var(--piste-700); --word-2:var(--piste); --price:var(--encre);
+  --shadow:0 1px 2px rgba(6,46,34,.06),0 8px 24px rgba(6,46,34,.08);
+  --stripe:rgba(15,107,80,.08);
+
+  --f-display:"Bricolage Grotesque",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --f-text:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:16px; --wrap:1180px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#08201A; --surface:#0E2A21; --soft:#12382B; --soft-2:#1A4636;
+  --fg:#EEF3EF; --muted:#A8B9B1; --line:#244637;
+  --primary:#3DB585; --primary-strong:#5CC99C; --on-primary:#062E22;
+  --link:#7FD6B0; --word-2:var(--podium); --price:#FFFFFF;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35); --stripe:rgba(61,181,133,.10);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08201A; --surface:#0E2A21; --soft:#12382B; --soft-2:#1A4636;
+  --fg:#EEF3EF; --muted:#A8B9B1; --line:#244637;
+  --primary:#3DB585; --primary-strong:#5CC99C; --on-primary:#062E22;
+  --link:#7FD6B0; --word-2:var(--podium); --price:#FFFFFF;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35); --stripe:rgba(61,181,133,.10);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 var(--f-text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+h1,h2,h3,h4{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em;line-height:1.08}
+h1{font-weight:800;font-size:clamp(36px,5.2vw,56px)}
+h2{font-weight:800;font-size:clamp(28px,3.6vw,40px)}
+h3{font-weight:700;font-size:clamp(20px,2vw,24px)}
+p{margin:0}
+a{color:var(--link)}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:600 12px/1 var(--f-text);letter-spacing:.12em;text-transform:uppercase;color:var(--primary)}
+.lead{font-size:18px;color:var(--muted);max-width:60ch}
+.small{font-size:14px;color:var(--muted)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Boutons et badges */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:2px solid transparent;font:700 16px/1 var(--f-display);cursor:pointer;text-decoration:none;transition:transform .15s ease,background .2s,box-shadow .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{background:var(--primary-strong)}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{background:#E84A12}
+.btn-ghost{background:transparent;color:var(--fg);border-color:var(--primary)}
+.btn-ghost:hover{background:var(--soft)}
+.btn-block{width:100%}
+.btn svg{width:20px;height:20px}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.trust{display:flex;flex-wrap:wrap;gap:8px}
+.tbadge{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1.5px solid var(--primary);color:var(--fg);font:600 13px/1 var(--f-text);background:var(--surface)}
+.tbadge .ic{width:16px;height:16px;color:var(--primary)}
+.state{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;font:700 13px/1 var(--f-display);white-space:nowrap}
+.state .dots{display:inline-flex;gap:3px}
+.state .dots i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.3}
+.state .dots i.on{opacity:1}
+.s4{background:var(--piste);color:#fff}
+.s3{background:var(--piste-100);color:var(--piste-700)}
+.s2{background:var(--podium);color:#3A2A00}
+.s1{background:var(--brume);color:var(--encre)}
+
+/* En-tête */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:68px}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg);flex:none}
+.logo svg{width:36px;height:36px}
+.logo b{font:800 22px/1 var(--f-display);letter-spacing:-.02em}
+.logo b span{color:var(--word-2)}
+nav.main{display:flex;gap:4px;margin-left:8px}
+nav.main a{padding:10px 14px;border-radius:999px;text-decoration:none;color:var(--fg);font:600 15px/1 var(--f-display);transition:background .2s}
+nav.main a:hover{background:var(--soft)}
+nav.main a[aria-current="page"]{background:var(--soft-2);color:var(--fg)}
+.top .spacer{flex:1}
+.top-search{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:0 14px;height:44px;width:min(320px,30vw);transition:border-color .2s}
+.top-search:focus-within{border-color:var(--primary)}
+.top-search input{border:0;background:transparent;outline:none;font:400 15px var(--f-text);color:var(--fg);width:100%;min-width:0}
+.cart-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.cart-btn:hover{border-color:var(--primary)}
+.count{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--orange);color:#fff;font:700 12px/20px var(--f-text);text-align:center}
+.count.bump{animation:bump .4s ease}
+@keyframes bump{40%{transform:scale(1.35)}}
+.theme-btn{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+
+/* Barre mobile */
+nav.tabbar{display:none}
+@media (max-width:860px){
+  nav.main,.top-search,.theme-btn{display:none}
+  .top .wrap{height:60px}
+  nav.tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--surface);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  nav.tabbar a,nav.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;border:0;background:none;color:var(--muted);font:600 11px/1 var(--f-text);text-decoration:none;cursor:pointer;position:relative}
+  nav.tabbar [aria-current="page"]{color:var(--primary)}
+  nav.tabbar .count{top:0;right:calc(50% - 22px)}
+  main{padding-bottom:84px}
+  .cart-btn{display:none}
+}
+
+/* Vues */
+main{min-height:70vh}
+.view{animation:viewIn .35s ease both}
+@keyframes viewIn{from{opacity:.4;transform:translateY(8px)}to{opacity:1;transform:none}}
+section.block{padding-block:72px}
+@media (max-width:700px){section.block{padding-block:48px}}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head > div{display:grid;gap:10px;min-width:0}
+
+/* Hero */
+.hero{padding-block:28px 0}
+.hero-panel{position:relative;overflow:hidden;background:var(--nuit);color:#fff;border-radius:28px;display:grid;grid-template-columns:1.15fr .85fr;gap:24px;padding:56px 56px 48px}
+.hero-panel h1{color:#fff}
+.hero-panel h1 em{font-style:normal;color:var(--podium)}
+.hero-panel .lead{color:#CFE2D9;margin-top:18px}
+.hero-copy{display:grid;align-content:center;min-width:0}
+.finder{margin-top:28px;background:#fff;color:var(--encre);border-radius:20px;padding:8px;display:grid;grid-template-columns:1fr 1fr auto;gap:6px;max-width:580px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.finder label{display:grid;gap:2px;padding:8px 14px;border-radius:14px;cursor:pointer;min-width:0}
+.finder label:hover{background:var(--piste-50)}
+.finder label span{font:600 12px/1.2 var(--f-text);color:var(--ardoise);letter-spacing:.04em;text-transform:uppercase}
+.finder select,.finder input{border:0;background:transparent;font:600 16px var(--f-display);color:var(--encre);outline:none;padding:2px 0;width:100%;min-width:0;appearance:none;-webkit-appearance:none}
+.finder .btn{height:100%;min-height:56px;border-radius:14px;background:var(--orange);color:#fff}
+.hero .trust{margin-top:22px}
+.hero .tbadge{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.hero .tbadge .ic{color:var(--podium)}
+.hero-art{position:relative;min-height:380px}
+.disc{position:absolute;border-radius:50%;display:grid;place-items:center;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.disc svg{width:78%;height:auto}
+.d1{width:62%;aspect-ratio:1;background:var(--piste);top:18%;left:2%}
+.d2{width:42%;aspect-ratio:1;background:var(--orange);top:0;right:2%}
+.d3{width:44%;aspect-ratio:1;background:var(--podium);bottom:0;right:6%}
+.hero-panel:hover .d1{transform:rotate(-4deg) translateY(-4px)}
+.hero-panel:hover .d2{transform:rotate(6deg)}
+.hero-panel:hover .d3{transform:rotate(-6deg) translateY(4px)}
+.loop-motif{position:absolute;right:-60px;bottom:-60px;width:260px;opacity:.12;pointer-events:none}
+.hero-even{grid-template-columns:1fr 1fr}
+@media (max-width:960px){.hero-panel,.hero-even{grid-template-columns:1fr;padding:36px 24px 28px}.hero-art{min-height:240px;max-width:380px;width:100%;margin:0 auto}}
+@media (max-width:560px){.finder{grid-template-columns:1fr 1fr}.finder .btn{grid-column:1/-1}.hero-panel{border-radius:22px}}
+
+/* Bande réassurance */
+.reassure{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.reassure div{display:flex;gap:12px;align-items:flex-start;padding:16px;min-width:0}
+.reassure .ic{width:26px;height:26px;color:var(--primary);margin-top:2px}
+.reassure b{display:block;font:700 16px/1.25 var(--f-display)}
+.reassure span{font-size:14px;color:var(--muted)}
+@media (max-width:860px){.reassure{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.reassure{grid-template-columns:1fr}.reassure div{padding:8px 4px}}
+
+/* Photos */
+.pic{position:absolute;inset:0;overflow:hidden;background:#EDEAE2}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.pic.contain{background:#FFFFFF}
+.pic.contain img{object-fit:contain;padding:5%}
+.pic .ring{position:absolute;width:70px;height:70px;margin:-35px 0 0 -35px;border:3px dashed #FF5A1F;border-radius:50%;box-shadow:0 0 0 2000px rgba(6,46,34,.18)}
+.pic .dlabel{position:absolute;top:14px;right:14px;background:#14201C;color:#FFFFFF;font:600 13px/1 var(--f-text);font-style:normal;padding:8px 12px;border-radius:999px}
+.thumb .pic .dlabel{display:none}
+.thumb .pic .ring{width:30px;height:30px;margin:-15px 0 0 -15px;border-width:2px}
+.card .ph .state,.card .ph .save,.stage .cap,.thumb > span{z-index:2}
+.card:hover .pic img{transform:scale(1.05)}
+.cat:hover .pic img{transform:scale(1.06)}
+.line .mini,.cat .art{position:relative;overflow:hidden}
+.hero-photo{background:#062E22;min-height:580px;grid-template-columns:minmax(0,640px) 1fr}
+.hero-copy{position:relative;z-index:2}
+.slides{position:absolute;inset:0;z-index:0}
+.slides::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,46,34,.94) 0%,rgba(6,46,34,.80) 38%,rgba(6,46,34,.10) 72%,rgba(6,46,34,0) 100%)}
+.slide{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat;opacity:0;transition:transform .8s cubic-bezier(.65,0,.35,1)}
+.slide.on,.slide.out{opacity:1}
+.hero-photo{cursor:pointer}
+.hero-copy{cursor:auto}
+.sl-arrow{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(255,255,255,.45);background:rgba(6,46,34,.55);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .2s,transform .15s}
+.sl-arrow:hover{background:#FF5A1F;border-color:#FF5A1F}
+.sl-arrow:active{transform:scale(.92)}
+.sl-arrow .ic{width:18px;height:18px}
+.slide-ui{position:absolute;right:24px;bottom:22px;z-index:3;display:flex;align-items:center;gap:12px}
+.slide-tag{color:#fff;font:600 13px/1 var(--f-text);background:rgba(6,46,34,.7);padding:8px 12px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.dots-nav{display:flex;gap:6px}
+.dots-nav button{width:34px;height:6px;border-radius:6px;border:0;padding:0;background:rgba(255,255,255,.4);cursor:pointer;position:relative;overflow:hidden}
+.dots-nav button[aria-current="true"]::after{content:"";position:absolute;inset:0;background:var(--podium);transform-origin:left;animation:fillbar 5s linear forwards}
+.slides-paused .dots-nav button[aria-current="true"]::after{animation-play-state:paused}
+@keyframes fillbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.dots-nav button[aria-current="true"]::after{transform:none}}
+@media (max-width:960px){
+  .hero-photo{padding-top:min(56vw,320px);min-height:0}
+  .slide{background-size:100% auto;background-position:center top!important}
+  .slides::after{background:linear-gradient(180deg,rgba(6,46,34,.10) 0%,rgba(6,46,34,.5) 30%,rgba(6,46,34,.95) 58%)}
+  .slide-ui{top:16px;bottom:auto;right:16px}
+  .slide-tag{display:none}
+}
+
+/* Bannière Black Friday */
+.bf{display:block;background:#0B0B0B;color:#FFFFFF;overflow:hidden;text-decoration:none;position:relative;z-index:51;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.bf-track{display:flex;width:max-content;animation:marquee 32s linear infinite}
+.bf:hover .bf-track,.bf:focus-visible .bf-track{animation-play-state:paused}
+.bf-item{display:flex;align-items:center;gap:22px;padding:11px 22px 11px 0;white-space:nowrap;font:700 14px/1 var(--f-display);letter-spacing:.02em}
+.bf-item b{color:#FFC93C;font-weight:800;letter-spacing:.08em}
+.bf-item .bf-o{color:#FF5A1F}
+.bf-item i{width:6px;height:6px;border-radius:50%;background:#FF5A1F;display:inline-block}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* Catégories */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cat{position:relative;display:grid;grid-template-rows:auto 1fr;border-radius:var(--r);overflow:hidden;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);transition:transform .25s,box-shadow .25s}
+.cat:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.cat .art{aspect-ratio:16/10;display:grid;place-items:center}
+.cat .art svg{width:70%;height:auto;transition:transform .4s}
+.cat:hover .art svg{transform:scale(1.06) rotate(-2deg)}
+.cat .meta{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cat .meta p{font-size:14px;color:var(--muted)}
+.arrow{width:40px;height:40px;border-radius:50%;background:var(--soft);display:grid;place-items:center;flex:none;transition:background .2s,transform .2s;color:var(--fg)}
+.cat:hover .arrow{background:var(--primary);color:var(--on-primary);transform:translateX(3px)}
+@media (max-width:760px){.cats{grid-template-columns:1fr}.cat{grid-template-columns:42% 1fr;grid-template-rows:none}.cat .art{aspect-ratio:auto;min-height:120px}}
+
+/* Échelle d'état */
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.scale div{padding:22px;display:grid;gap:10px;align-content:start;border-left:1px solid var(--line)}
+.scale div:first-child{border-left:0}
+.scale p{font-size:15px;color:var(--muted)}
+.scale .ex{font:500 13px/1.4 var(--f-text);color:var(--fg)}
+@media (max-width:860px){.scale{grid-template-columns:1fr 1fr}.scale div:nth-child(3){border-left:0}.scale div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:480px){.scale{grid-template-columns:1fr}.scale div{border-left:0;border-top:1px solid var(--line)}.scale div:first-child{border-top:0}}
+
+/* Cartes produit */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.card{display:grid;grid-template-rows:auto 1fr;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-decoration:none;color:var(--fg);transition:transform .25s,box-shadow .25s,border-color .25s;position:relative}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:transparent}
+.card .ph{position:relative;aspect-ratio:4/3;background:var(--craie);display:grid;place-items:center;overflow:hidden}
+.card .ph svg.prod{width:82%;height:auto;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.card:hover .ph svg.prod{transform:scale(1.06)}
+.card .ph .state{position:absolute;top:12px;left:12px}
+.card .ph .save{position:absolute;top:12px;right:12px;background:var(--orange);color:#fff;font:700 12px/1 var(--f-text);padding:6px 9px;border-radius:999px}
+.card .body{padding:16px 18px 18px;display:grid;gap:6px;align-content:start}
+.card h3{font-size:18px;line-height:1.2}
+.card .sub{font-size:13px;color:var(--muted)}
+.card .row{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+.price{font:800 22px/1 var(--f-display);color:var(--price);font-variant-numeric:tabular-nums}
+.was{font:500 14px var(--f-text);color:var(--muted);text-decoration:line-through;font-variant-numeric:tabular-nums}
+.quick{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:0;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
+.card:hover .quick,.card:focus-within .quick{opacity:1;transform:none}
+@media (hover:none){.quick{opacity:1;transform:none}}
+.quick.added{background:var(--succes);color:#fff}
+
+/* Étapes */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:st}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start}
+.step .n{width:40px;height:40px;border-radius:50%;background:var(--soft-2);color:var(--fg);display:grid;place-items:center;font:800 18px var(--f-display)}
+.step p{color:var(--muted);font-size:15px}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* Bandes */
+.band{border-radius:24px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.band-stripes{background-color:var(--soft);background-image:repeating-linear-gradient(135deg,var(--stripe) 0 14px,transparent 14px 28px)}
+.band-dark{background:var(--nuit);color:#fff}
+.band-dark .lead{color:#CFE2D9}
+.band-dark h2 em{font-style:normal;color:var(--podium)}
+@media (max-width:860px){.band{grid-template-columns:1fr;padding:28px 20px}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stats div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px}
+.stats b{display:block;font:800 30px/1 var(--f-display);color:var(--podium);font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:#CFE2D9}
+@media (max-width:480px){.stats{grid-template-columns:1fr}}
+
+/* Formulaires */
+form.stack{display:grid;gap:14px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font:600 14px/1.2 var(--f-text)}
+.field input,.field select,.field textarea{height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:0 14px;font:400 16px var(--f-text);width:100%;transition:border-color .2s,box-shadow .2s}
+.field textarea{height:auto;padding:12px 14px;min-height:96px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 18%,transparent)}
+.field .err{color:var(--erreur);font-size:13px;display:none}
+.field.invalid input,.field.invalid select{border-color:var(--erreur)}
+.field.invalid .err{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+.ok{display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:14px;background:var(--soft);border:1.5px solid var(--succes);animation:viewIn .3s ease both}
+.ok .ic{color:var(--succes);width:24px;height:24px}
+.ok b{font-family:var(--f-display)}
+.demo-note{font-size:12px;color:var(--muted)}
+
+/* Catalogue */
+.shop{display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:start}
+.filters{position:sticky;top:calc(84px + env(safe-area-inset-top,0px));display:grid;gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.filters h4{font:700 15px/1 var(--f-display);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:8px 14px;font:600 14px/1 var(--f-text);cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--primary)}
+.chip[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.check{display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;font-size:15px}
+.check input{width:18px;height:18px;accent-color:var(--piste)}
+input[type=range]{width:100%;accent-color:var(--piste)}
+.range-val{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.shop-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.shop-top select{height:42px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:0 14px;font:600 14px var(--f-text)}
+.filter-toggle{display:none}
+@media (max-width:860px){
+  .shop{grid-template-columns:1fr}
+  .filters{position:fixed;inset:auto 0 0 0;top:auto;z-index:70;border-radius:22px 22px 0 0;max-height:82vh;overflow:auto;padding:20px max(20px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+  .filters.open{transform:none}
+  .filter-toggle{display:inline-flex}
+  .filters .close-f{display:flex!important}
+}
+.close-f{display:none!important}
+.empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:var(--r);padding:32px;display:grid;gap:14px;justify-items:start}
+
+/* Fiche produit */
+.crumbs{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);padding-block:20px;flex-wrap:wrap}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--fg)}
+.pdp{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start;padding-bottom:56px}
+.gallery{display:grid;gap:12px;position:sticky;top:calc(84px + env(safe-area-inset-top,0px))}
+.stage{position:relative;aspect-ratio:4/3;background:var(--craie);border-radius:20px;overflow:hidden;display:grid;place-items:center;max-width:100%}
+.stage svg.prod{width:86%;height:auto;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.stage .cap{position:absolute;left:14px;bottom:14px;background:rgba(6,46,34,.9);color:#fff;font:600 13px/1 var(--f-text);padding:8px 12px;border-radius:999px}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.thumb{aspect-ratio:4/3;background:var(--craie);border-radius:12px;border:2px solid transparent;cursor:pointer;display:grid;place-items:center;overflow:hidden;padding:0;position:relative}
+.thumb svg{width:80%;height:auto}
+.thumb[aria-pressed="true"]{border-color:var(--primary)}
+.thumb span{position:absolute;left:6px;bottom:6px;font:600 11px/1 var(--f-text);background:rgba(255,255,255,.92);color:var(--encre);padding:4px 6px;border-radius:6px}
+.buy{display:grid;gap:18px;min-width:0}
+.buy .seller{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);flex-wrap:wrap}
+.buy .seller .ic{color:var(--primary);width:18px;height:18px}
+.buy .prices{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.buy .prices .price{font-size:40px}
+.save-pill{background:var(--orange);color:#fff;font:700 13px/1 var(--f-text);padding:6px 10px;border-radius:999px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:12px}
+.note p{font-size:15px}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.checks li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.checks .ic{color:var(--succes);width:20px;height:20px;margin-top:2px}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:15px}
+.specs dt{color:var(--muted)}
+.specs dd{margin:0;font-weight:500}
+.buy-actions{display:grid;grid-template-columns:1fr auto;gap:10px}
+.sticky-buy{display:none}
+@media (max-width:900px){
+  .pdp{grid-template-columns:1fr;gap:24px}
+  .gallery{position:static}
+  .buy .prices .price{font-size:34px}
+  .sticky-buy{display:flex;position:fixed;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom,0px));z-index:54;background:var(--surface);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));align-items:center;justify-content:space-between;gap:12px;transform:translateY(120%);transition:transform .3s}
+  .sticky-buy.show{transform:none}
+}
+details.acc{border-top:1px solid var(--line)}
+details.acc:last-child{border-bottom:1px solid var(--line)}
+details.acc summary{list-style:none;cursor:pointer;padding:18px 0;display:flex;justify-content:space-between;gap:16px;font:700 17px/1.3 var(--f-display)}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary .pm{flex:none;width:28px;height:28px;border-radius:50%;background:var(--soft);display:grid;place-items:center;transition:transform .25s}
+details.acc[open] summary .pm{transform:rotate(45deg)}
+details.acc .a{padding:0 0 18px;color:var(--muted);max-width:68ch}
+
+/* Vendre */
+.calc{background:var(--surface);color:var(--fg);border-radius:20px;padding:24px;display:grid;gap:18px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.calc .out{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.calc .out div{background:var(--soft);border-radius:12px;padding:14px}
+.calc .out b{display:block;font:800 26px/1.1 var(--f-display);font-variant-numeric:tabular-nums}
+.calc .out span{font-size:13px;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+@media (max-width:860px){.two{grid-template-columns:1fr;gap:28px}}
+.objection{display:grid;gap:14px}
+.objection div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:6px}
+.objection b{font:700 17px/1.3 var(--f-display)}
+.objection p{color:var(--muted);font-size:15px}
+.card-form{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px}
+
+/* Tiroir panier */
+.scrim{position:fixed;inset:0;background:rgba(6,46,34,.45);z-index:80;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:90;background:var(--bg);display:grid;grid-template-rows:auto 1fr auto;transform:translateX(102%);transition:transform .38s cubic-bezier(.2,.8,.2,1);box-shadow:-20px 0 50px rgba(0,0,0,.2);padding-top:env(safe-area-inset-top,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer.on{transform:none}
+.drawer .dh{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+.drawer .db{overflow:auto;padding:16px 20px;display:grid;gap:12px;align-content:start}
+.drawer .df{padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--surface);display:grid;gap:12px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;display:grid;place-items:center}
+.line{display:grid;grid-template-columns:84px 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px}
+.line .mini{aspect-ratio:4/3;background:var(--craie);border-radius:10px;display:grid;place-items:center}
+.line .mini svg{width:86%;height:auto}
+.line b{font:700 15px/1.25 var(--f-display);display:block}
+.line .sub{font-size:12px;color:var(--muted)}
+.line .rm{border:0;background:none;color:var(--muted);font:500 13px var(--f-text);cursor:pointer;text-decoration:underline;padding:0}
+.tot{display:flex;justify-content:space-between;font-size:15px}
+.tot.big{font:800 20px var(--f-display)}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;background:var(--surface)}
+.opt:has(input:checked){border-color:var(--primary);background:var(--soft)}
+.opt input{accent-color:var(--piste);margin-top:3px}
+.opt b{font:700 15px var(--f-display);display:block}
+.opt span{font-size:13px;color:var(--muted)}
+.progress{display:flex;gap:6px}
+.progress i{height:4px;flex:1;border-radius:4px;background:var(--line);transition:background .3s}
+.progress i.on{background:var(--primary)}
+
+/* Toast */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);z-index:100;background:var(--nuit);color:#fff;border-radius:999px;padding:12px 14px 12px 18px;display:flex;gap:12px;align-items:center;font:500 15px var(--f-text);box-shadow:0 12px 30px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.2,.8,.2,1);max-width:calc(100% - 32px)}
+.toast.on{transform:translate(-50%,0)}
+.toast button{border:0;background:var(--podium);color:#3A2A00;border-radius:999px;padding:8px 12px;font:700 13px var(--f-display);cursor:pointer;white-space:nowrap}
+@media (max-width:860px){.toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+
+/* Chatbot */
+.chat-fab{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:75;width:60px;height:60px;border-radius:50%;border:0;background:var(--piste);color:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 28px rgba(6,46,34,.35);transition:transform .25s cubic-bezier(.2,.8,.2,1),background .2s}
+.chat-fab:hover{transform:scale(1.07);background:var(--piste-700)}
+.chat-fab svg{width:28px;height:28px}
+.chat-fab .badge{position:absolute;top:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;font:700 12px/20px var(--f-text);text-align:center;border:2px solid var(--bg)}
+.chat-fab.open .badge{display:none}
+.chat-fab::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--piste);animation:ping 2.4s ease-out infinite}
+.chat-fab.open::before,.chat-fab.seen::before{display:none}
+@keyframes ping{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(1.6);opacity:0}}
+.chat-teaser{position:fixed;right:calc(92px + env(safe-area-inset-right,0px));bottom:calc(28px + env(safe-area-inset-bottom,0px));z-index:75;max-width:240px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:18px 18px 4px 18px;padding:12px 34px 12px 14px;font-size:14px;box-shadow:var(--shadow);cursor:pointer;animation:pop .35s cubic-bezier(.2,.8,.2,1) both}
+.chat-teaser button{position:absolute;top:6px;right:6px;width:24px;height:24px;border:0;background:none;color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.chat-teaser button .ic{width:14px;height:14px}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:none}}
+.chat{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:95;width:min(380px,calc(100vw - 32px));height:min(560px,calc(100vh - 140px));background:var(--bg);border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 60px rgba(6,46,34,.3);display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;transform-origin:bottom right;transform:scale(.9) translateY(10px);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .2s}
+.chat.on{transform:none;opacity:1;pointer-events:auto}
+.chat-h{background:var(--nuit);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.chat-h .av{width:38px;height:38px;flex:none}
+.chat-h b{font:700 16px/1.2 var(--f-display);display:block}
+.chat-h small{font-size:12px;color:#CFE2D9;display:flex;align-items:center;gap:6px}
+.chat-h small i{width:8px;height:8px;border-radius:50%;background:#3DDC84}
+.chat-h .icon-btn{margin-left:auto;background:transparent;border-color:rgba(255,255,255,.3);color:#fff}
+.chat-log{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.msg{max-width:85%;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.45;animation:pop .3s cubic-bezier(.2,.8,.2,1) both;overflow-wrap:anywhere}
+.msg.bot{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.me{align-self:flex-end;background:var(--primary);color:var(--on-primary);border-bottom-right-radius:4px}
+.msg a{color:var(--link);font-weight:600}
+.typing{display:inline-flex;gap:4px;padding:14px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.25;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.qr{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;animation:pop .3s ease both}
+.qr button{border:1.5px solid var(--primary);background:var(--surface);color:var(--fg);border-radius:999px;padding:7px 12px;font:600 13px/1 var(--f-text);cursor:pointer;transition:background .2s}
+.qr button:hover{background:var(--soft)}
+.chat-cards{display:grid;gap:8px;align-self:stretch;animation:pop .3s ease both}
+.chat-card{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px;text-decoration:none;color:var(--fg)}
+.chat-card .mini{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden}
+.chat-card b{font:700 14px/1.2 var(--f-display);display:block}
+.chat-card span{font-size:12px;color:var(--muted)}
+.chat-card .price{font-size:16px}
+.chat-in{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--surface)}
+.chat-in input{flex:1;min-width:0;height:44px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);padding:0 16px;font:400 15px var(--f-text)}
+.chat-in input:focus{outline:none;border-color:var(--primary)}
+.chat-in button{width:44px;height:44px;border-radius:50%;border:0;background:var(--orange);color:#fff;cursor:pointer;display:grid;place-items:center;flex:none}
+@media (max-width:860px){
+  .chat-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px));width:54px;height:54px;right:calc(14px + env(safe-area-inset-right,0px))}
+  body.pdp-page .chat-fab{bottom:calc(146px + env(safe-area-inset-bottom,0px))}
+  .chat-teaser{right:calc(80px + env(safe-area-inset-right,0px));bottom:calc(82px + env(safe-area-inset-bottom,0px))}
+  body.pdp-page .chat-teaser{display:none}
+  .chat{right:0;left:0;bottom:0;width:100%;height:min(88vh,640px);border-radius:22px 22px 0 0;transform-origin:bottom center;padding-bottom:env(safe-area-inset-bottom,0px)}
+}
+
+/* Pied de page */
+footer{margin-top:40px;background:var(--nuit);color:#CFE2D9;padding-block:48px 32px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px}
+footer h4{color:#fff;font:700 15px var(--f-display);margin-bottom:12px}
+footer a{color:#CFE2D9;text-decoration:none;display:block;padding:4px 0;font-size:14px}
+footer a:hover{color:#fff}
+footer .logo{color:#fff}
+footer .logo b span{color:var(--podium)}
+footer .legal{border-top:1px solid rgba(255,255,255,.12);margin-top:32px;padding-top:20px;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:760px){footer .cols{grid-template-columns:1fr 1fr}footer .cols > div:first-child{grid-column:1/-1}footer{padding-bottom:110px}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-return" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 010 10h-3"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4l2-2z"/><path d="M10 20a2 2 0 004 0"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4v-9z"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9l1-5h14l1 5"/><path d="M4 9a2.7 2.7 0 005.3 0 2.7 2.7 0 005.4 0 2.7 2.7 0 005.3 0"/><path d="M5 11v9h14v-9"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8L3 12z"/><circle cx="7.5" cy="7.5" r="1.5"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="2" transform="rotate(-45 12 12)"/><path d="M9 9l2 2M12 6l2 2M6 12l2 2"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14A8 8 0 0110 4a8 8 0 1010 10z"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z"/></symbol>
+  </defs>
+</svg>
+
+<a class="bf" id="bf" href="#acheter" data-bf aria-label="Black Friday du 23 au 30 novembre : jusqu’à −75 % par rapport au prix neuf. Voir les plus grosses économies."><div class="bf-track" id="bfTrack" aria-hidden="true"></div></a>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#accueil" aria-label="Sport Again, accueil">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0F6B50"/><path d="M45 21 A17 17 0 1 0 49 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M49.5 26 L57 36 L42 36 Z" fill="#fff"/><circle cx="32" cy="32" r="5.5" fill="#FF5A1F"/></svg>
+      <b>sport <span>again</span></b>
+    </a>
+    <nav class="main" aria-label="Navigation principale">
+      <a href="#acheter" data-nav="acheter">Acheter</a>
+      <a href="#vendre" data-nav="vendre">Vendre (pro)</a>
+      <a href="#aide" data-nav="aide">Aide</a>
+    </nav>
+    <div class="spacer"></div>
+    <form class="top-search" id="topSearch" role="search">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <label for="q" class="sr">Rechercher un article</label>
+      <input id="q" type="search" placeholder="Skis 170, fers, vélo M…" autocomplete="off">
+    </form>
+    <button class="theme-btn" id="themeBtn" aria-label="Changer de thème"><svg class="ic"><use href="#i-moon"/></svg></button>
+    <button class="cart-btn" id="cartBtn" aria-label="Ouvrir le panier"><svg class="ic"><use href="#i-bag"/></svg><span class="count num" id="cartCount" hidden>0</span></button>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a class="logo" href="#accueil"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0F6B50"/><path d="M45 21 A17 17 0 1 0 49 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M49.5 26 L57 36 L42 36 Z" fill="#fff"/><circle cx="32" cy="32" r="5.5" fill="#FF5A1F"/></svg><b>sport <span>again</span></b></a>
+        <p style="max-width:34ch;font-size:14px">La seconde main sans mauvaise surprise. Du matériel de sport contrôlé par des revendeurs pros, à Lyon.</p>
+      </div>
+      <div><h4>Acheter</h4><a href="#acheter" data-sport="ski">Ski</a><a href="#acheter" data-sport="golf">Golf</a><a href="#acheter" data-sport="velo">Vélo</a><a href="#alerte">Alerte taille</a></div>
+      <div><h4>Revendeurs</h4><a href="#vendre">Devenir vendeur</a><a href="#vendre-form">Rejoindre le pilote</a><a href="#aide">Commission et conditions</a></div>
+      <div><h4>Aide</h4><a href="#aide">Retour 14 jours</a><a href="#aide">Paiement sécurisé</a><a href="#aide">L'état noté sur 4</a><a href="#aide">Contact</a></div>
+    </div>
+    <div class="legal"><span>© 2026 Sport Again · Lyon 7e</span><span>Prototype : catalogue pilote et revendeurs fictifs, paiement non branché. Photos : Unsplash et visuels fournis.</span></div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Navigation mobile">
+  <a href="#accueil" data-nav="accueil"><svg class="ic"><use href="#i-home"/></svg>Accueil</a>
+  <a href="#acheter" data-nav="acheter"><svg class="ic"><use href="#i-search"/></svg>Acheter</a>
+  <a href="#vendre" data-nav="vendre"><svg class="ic"><use href="#i-store"/></svg>Vendre</a>
+  <button id="cartTab" type="button"><svg class="ic"><use href="#i-bag"/></svg>Panier<span class="count num" id="cartCount2" hidden>0</span></button>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Panier" aria-hidden="true">
+  <div class="dh"><h3 id="drawerTitle">Ton panier</h3><button class="icon-btn" id="closeDrawer" aria-label="Fermer le panier"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="db" id="drawerBody"></div>
+  <div class="df" id="drawerFoot"></div>
+</aside>
+
+<button class="chat-fab" id="chatFab" type="button" aria-label="Ouvrir l’assistant Sport Again" aria-expanded="false" aria-controls="chat"><svg class="ic" style="width:28px;height:28px"><use href="#i-chat"/></svg><span class="badge" aria-hidden="true">1</span></button>
+<div class="chat-teaser" id="chatTeaser" hidden>Un doute sur l’état ou la taille ? Je te réponds tout de suite.<button type="button" id="teaserX" aria-label="Masquer"><svg class="ic"><use href="#i-x"/></svg></button></div>
+<section class="chat" id="chat" role="dialog" aria-label="Assistant Sport Again" aria-hidden="true">
+  <div class="chat-h">
+    <svg class="av" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#0F6B50"/><path d="M45 21 A17 17 0 1 0 49 34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M49.5 26 L57 36 L42 36 Z" fill="#fff"/><circle cx="32" cy="32" r="5.5" fill="#FF5A1F"/></svg>
+    <div><b>Assistant Sport Again</b><small><i></i>Répond en quelques secondes</small></div>
+    <button class="icon-btn" type="button" id="chatClose" aria-label="Fermer l’assistant"><svg class="ic"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <form class="chat-in" id="chatForm" autocomplete="off">
+    <label for="chatInput" class="sr">Ta question</label>
+    <input id="chatInput" placeholder="Pose ta question ou cherche un article…" maxlength="200">
+    <button type="submit" aria-label="Envoyer"><svg class="ic"><use href="#i-arrow"/></svg></button>
+  </form>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button id="toastBtn" type="button">Voir le panier</button></div>
+
+<script>
+(() => {
+/* ---------- Illustrations produit (rendu "3D" simplifié, fond Craie, lumière haut gauche) ---------- */
+const C = {ink:'#14201C', g:'#0F6B50', g7:'#0A4D39', o:'#FF5A1F', y:'#FFC93C', b:'#D9DDD8', w:'#FFFFFF', s:'#55625D'};
+const shadow = (cx=100,w=70) => `<ellipse cx="${cx}" cy="138" rx="${w}" ry="6" fill="#14201C" opacity=".10"/>`;
+const ART = {
+  bike(col=C.g, r=30, thick=5){
+    const y=100, a=56, b=144;
+    return shadow(100,72)+`<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="${a}" cy="${y}" r="${r}" stroke="${C.ink}" stroke-width="${thick}"/><circle cx="${b}" cy="${y}" r="${r}" stroke="${C.ink}" stroke-width="${thick}"/>
+      <circle cx="${a}" cy="${y}" r="${r-8}" stroke="${C.b}" stroke-width="1.5"/><circle cx="${b}" cy="${y}" r="${r-8}" stroke="${C.b}" stroke-width="1.5"/>
+      <path d="M${a} ${y} L86 62 L134 62 L${b} ${y} M86 62 L100 ${y} L${a} ${y} M100 ${y} L134 62" stroke="${col}" stroke-width="6"/>
+      <path d="M86 62 L81 48 M70 46 H92" stroke="${C.ink}" stroke-width="5"/>
+      <path d="M134 62 L131 46 Q140 40 148 46" stroke="${C.ink}" stroke-width="4"/>
+      <circle cx="100" cy="${y}" r="7" stroke="${C.ink}" stroke-width="3" fill="${C.y}"/></g>`;
+  },
+  skis(col=C.o){
+    return shadow(100,80)+`<g transform="rotate(-16 100 80)">
+      <path d="M14 70 Q8 70 8 64 Q10 58 22 60 L190 64 Q194 64 194 70 Q194 74 190 74 L20 74 Q14 74 14 70Z" fill="${col}"/>
+      <path d="M14 92 Q8 92 8 86 Q10 80 22 82 L190 86 Q194 86 194 92 Q194 96 190 96 L20 96 Q14 96 14 92Z" fill="${C.g}"/>
+      <rect x="92" y="58" width="34" height="18" rx="5" fill="${C.ink}"/><rect x="92" y="80" width="34" height="18" rx="5" fill="${C.ink}"/>
+      <path d="M30 67 H80 M30 89 H80" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/></g>`;
+  },
+  boot(col=C.g){
+    return shadow(100,60)+`<g stroke-linejoin="round">
+      <path d="M70 20 H122 Q130 20 130 30 L132 92 Q160 96 164 112 L164 126 H52 L52 112 Q50 98 60 92 L62 30 Q62 20 70 20Z" fill="${col}"/>
+      <path d="M52 118 H164 V128 H52Z" fill="${C.ink}"/>
+      <g stroke="${C.y}" stroke-width="6" stroke-linecap="round"><path d="M64 40 H128"/><path d="M64 60 H130"/><path d="M80 92 L106 82"/><path d="M108 104 L136 96"/></g>
+      <path d="M70 26 Q66 70 70 90" stroke="#fff" stroke-width="4" fill="none" opacity=".25" stroke-linecap="round"/></g>`;
+  },
+  shoe(col=C.ink){
+    return shadow(100,74)+`<g stroke-linejoin="round">
+      <path d="M30 108 Q30 82 52 76 L96 62 Q110 58 122 66 L150 84 Q176 92 176 106 L176 114 H30Z" fill="${col}"/>
+      <path d="M28 112 H178 V122 Q178 126 172 126 H34 Q28 126 28 120Z" fill="${C.o}"/>
+      <g stroke="#fff" stroke-width="5" stroke-linecap="round"><path d="M76 82 L120 70"/><path d="M84 96 L134 84"/></g>
+      <circle cx="146" cy="96" r="5" fill="${C.y}"/></g>`;
+  },
+  goggles(){
+    return shadow(100,70)+`<defs><linearGradient id="lens" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.y}"/><stop offset="1" stop-color="${C.o}"/></linearGradient></defs>
+      <path d="M14 78 Q14 70 30 70 H170 Q186 70 186 78 V86 Q186 94 170 94 H30 Q14 94 14 86Z" fill="${C.g}"/>
+      <path d="M40 52 Q100 36 160 52 Q174 56 172 82 Q170 112 140 112 Q122 112 112 100 Q100 92 88 100 Q78 112 60 112 Q30 112 28 82 Q26 56 40 52Z" fill="${C.ink}"/>
+      <path d="M46 58 Q100 44 154 58 Q164 62 162 82 Q160 104 140 104 Q124 104 114 94 Q100 84 86 94 Q76 104 60 104 Q40 104 38 82 Q36 62 46 58Z" fill="url(#lens)"/>
+      <path d="M54 66 Q80 58 104 60" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".6"/>`;
+  },
+  irons(){
+    let s='';[ -18,-9,0,9,18].forEach((d,i)=>{s+=`<g transform="rotate(${d} 100 132)"><path d="M100 132 V22" stroke="${C.s}" stroke-width="4" stroke-linecap="round"/><path d="M100 22 V40" stroke="${C.ink}" stroke-width="8" stroke-linecap="round"/><path d="M98 126 L118 124 Q124 124 124 130 L122 136 H96Z" fill="${i%2?C.b:'#AEB6B1'}" stroke="${C.ink}" stroke-width="2"/></g>`});
+    return shadow(100,64)+s;
+  },
+  driver(){
+    return shadow(108,60)+`<g transform="rotate(-24 100 80)"><path d="M100 128 V14" stroke="${C.s}" stroke-width="4" stroke-linecap="round"/><path d="M100 14 V40" stroke="${C.ink}" stroke-width="9" stroke-linecap="round"/>
+      <path d="M96 118 Q96 108 112 108 H144 Q164 110 164 126 Q164 140 142 140 H108 Q96 140 96 128Z" fill="${C.ink}"/><path d="M106 116 H150" stroke="${C.o}" stroke-width="4" stroke-linecap="round"/></g>
+      <circle cx="58" cy="130" r="8" fill="#fff" stroke="${C.b}" stroke-width="2"/>`;
+  },
+  golfbag(){
+    return shadow(100,46)+`<g stroke-linecap="round">
+      <path d="M86 26 L80 6 M100 24 V2 M114 26 L122 8" stroke="${C.s}" stroke-width="4"/>
+      <circle cx="80" cy="8" r="7" fill="${C.ink}"/><circle cx="100" cy="4" r="7" fill="${C.o}"/><circle cx="122" cy="10" r="7" fill="${C.y}"/>
+      <rect x="70" y="24" width="60" height="110" rx="14" fill="${C.g}"/>
+      <rect x="70" y="24" width="60" height="16" rx="8" fill="${C.ink}"/>
+      <rect x="78" y="70" width="44" height="40" rx="8" fill="${C.g7}"/><path d="M84 82 H116" stroke="${C.y}" stroke-width="4"/>
+      <path d="M130 44 Q156 70 132 120" stroke="${C.ink}" stroke-width="5" fill="none"/>
+      <path d="M74 128 L58 140 M126 128 L142 140" stroke="${C.ink}" stroke-width="4"/></g>`;
+  },
+  trolley(){
+    return shadow(100,70)+`<g stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M60 116 L120 40 L132 22" stroke="${C.ink}" stroke-width="6"/><path d="M128 18 H146" stroke="${C.ink}" stroke-width="8"/>
+      <path d="M92 76 L150 116 M92 76 L44 118" stroke="${C.s}" stroke-width="5"/>
+      <path d="M96 62 L120 78" stroke="${C.o}" stroke-width="10"/></g>
+      <circle cx="44" cy="120" r="14" fill="${C.ink}"/><circle cx="44" cy="120" r="5" fill="${C.y}"/>
+      <circle cx="150" cy="120" r="14" fill="${C.ink}"/><circle cx="150" cy="120" r="5" fill="${C.y}"/>
+      <circle cx="78" cy="124" r="10" fill="${C.ink}"/>`;
+  }
+};
+/* Photos produit : fit = cadrage, pos = point d'intérêt, pt = position du défaut (en %) */
+const PHOTO = {
+  'velo-route-m':{fit:'contain', pt:[52,50]},
+  'vtt-29-l':{pt:[30,74]},
+  'velo-enfant-20':{pos:'50% 72%'},
+  'chaussures-velo-42':{pt:[30,72]},
+  'skis-170':{fit:'contain', pt:[86,74]},
+  'chaussures-ski-42':{pt:[62,72]},
+  'skis-junior-130':{pos:'50% 70%', pt:[38,82]},
+  'masque-ski':{},
+  'fers-5-pw':{pt:[42,40]},
+  'driver-10-5':{pos:'50% 88%', pt:[32,78]},
+  'sac-golf':{},
+  'chariot-golf':{pos:'30% 60%'}
+};
+function drawing(p, view='face', cls='prod'){
+  const ph = PHOTO[p.id]||{};
+  let style = ph.pos?`object-position:${ph.pos};`:'';
+  let extra = '';
+  if(view==='tq'){ const o = ph.pt?`${ph.pt[0]}% ${ph.pt[1]}%`:'50% 50%'; style += `transform:scale(1.5);transform-origin:${o};`; }
+  if(view==='detail' && p.defect && ph.pt){
+    const [x,y]=ph.pt;
+    style += `transform:scale(2.4);transform-origin:${x}% ${y}%;`;
+    extra = `<i class="ring" style="left:${x}%;top:${y}%"></i><em class="dlabel">${p.defect.label}</em>`;
+  }
+  return `<div class="pic ${ph.fit==='contain'?'contain':''} ${cls}"><img src="img/${p.id}.jpg" alt="${p.name}${view==='detail'?' : détail du défaut':''}" loading="lazy" decoding="async" style="${style}">${extra}</div>`;
+}
+
+/* ---------- Catalogue pilote (fictif) ---------- */
+const SELLERS = {
+  spl:{name:'Sport Pro Lyon', area:'Lyon 7e'},
+  gcr:{name:'Glisse Croix-Rousse', area:'Lyon 4e'},
+  acg:{name:'Atelier Cycles Gerland', area:'Lyon 7e'},
+  gsc:{name:'Golf Shop Confluence', area:'Lyon 2e'}
+};
+const STATES = {4:['Comme neuf','Aucune trace d’usage visible'],3:['Très bon','Micro-marques, invisibles à l’usage'],2:['Bon','Signes d’usage légers, photographiés'],1:['Correct','Usure visible, prix en conséquence']};
+const SPORTS = {ski:'Ski', golf:'Golf', velo:'Vélo'};
+const P = [
+  {id:'velo-route-m', name:'Vélo de route carbone', sport:'velo', size:'M', st:3, price:540, was:890, seller:'spl', art:'bike', artArgs:[C.g],
+    note:'Micro-rayure de 2 cm sur le tube diagonal, visible sur la photo 3. Sans incidence sur la tenue du cadre.', defect:{at:[118,82],label:'Rayure 2 cm'},
+    checks:['Cadre inspecté : micro-rayure 2 cm','Pneus : 90 % restant','Transmission révisée','Freins réglés'], specs:{Taille:'M (1,70 – 1,80 m)','Groupe':'11 vitesses',Poids:'8,4 kg','Année':'2022'}},
+  {id:'vtt-29-l', name:'VTT semi-rigide 29"', sport:'velo', size:'L', st:2, price:420, was:799, seller:'acg', art:'bike', artArgs:[C.o,32,8],
+    note:'Éraflures sur la base arrière (3 cm) et poignées usées, en photo. Fourche révisée en atelier.', defect:{at:[80,100],label:'Éraflure 3 cm'},
+    checks:['Fourche révisée','Plaquettes neuves','Roues dévoilées'], specs:{Taille:'L (1,80 – 1,92 m)',Roues:'29 pouces','Fourche':'100 mm',Année:'2021'}},
+  {id:'velo-enfant-20', name:'Vélo enfant 20 pouces', sport:'velo', size:'6 – 9 ans', st:4, price:149, was:269, seller:'acg', art:'bike', artArgs:[C.y,24,6],
+    note:'Utilisé une saison, aucune trace d’usage visible.', checks:['Freins réglés','Selle et cintre ajustables','Pneus neufs'], specs:{Taille:'6 – 9 ans (1,15 – 1,35 m)',Roues:'20 pouces',Vitesses:'6'}},
+  {id:'chaussures-velo-42', name:'Chaussures vélo route', sport:'velo', size:'42', st:3, price:65, was:140, seller:'spl', art:'shoe',
+    note:'Semelle carbone intacte. Légère marque sur la pointe droite, en photo 3.', defect:{at:[168,110],label:'Marque 1 cm'},
+    checks:['Serrages testés','Semelle sans fissure','Cales retirées'], specs:{Pointure:'42 EU',Semelle:'Carbone',Fixation:'3 trous'}},
+  {id:'skis-170', name:'Skis all-mountain', sport:'ski', size:'170 cm', st:3, price:189, was:449, seller:'gcr', art:'skis',
+    note:'Semelle refaite et carres affûtées. Petite marque sur la spatule, sans effet sur la glisse.', defect:{at:[28,58],label:'Marque spatule'},
+    checks:['Semelle refaite','Carres affûtées','Fixations réglées (DIN 3 – 10)'], specs:{Longueur:'170 cm',Rayon:'15 m',Niveau:'Intermédiaire à confirmé'}},
+  {id:'chaussures-ski-42', name:'Chaussures de ski', sport:'ski', size:'42', st:2, price:89, was:299, seller:'gcr', art:'boot',
+    note:'Coque saine, chaussons tassés sur le talon, en photo. Boucles complètes.', defect:{at:[66,100],label:'Talon usé'},
+    checks:['Coque sans fissure','4 boucles fonctionnelles','Chaussons désinfectés'], specs:{Pointure:'42 EU (Mondo 26.5)',Flex:'90',Largeur:'102 mm'}},
+  {id:'skis-junior-130', name:'Skis junior', sport:'ski', size:'130 cm', st:1, price:45, was:179, seller:'gcr', art:'skis', artArgs:[C.y],
+    note:'Usure visible des carres et rayures de semelle, prix en conséquence. Idéal pour apprendre.', defect:{at:[150,70],label:'Carre usée'},
+    checks:['Fixations réglées','Semelle fartée'], specs:{Longueur:'130 cm',Âge:'9 – 12 ans'}},
+  {id:'masque-ski', name:'Masque de ski écran sphérique', sport:'ski', size:'Taille unique', st:4, price:39, was:89, seller:'spl', art:'goggles',
+    note:'Porté deux fois, écran sans rayure. Livré avec housse.', checks:['Écran sans rayure','Mousse intacte'], specs:{Écran:'Catégorie 2',Compatibilité:'Casque'}},
+  {id:'fers-5-pw', name:'Série de fers 5 – PW', sport:'golf', size:'Regular · droitier', st:3, price:320, was:690, seller:'gsc', art:'irons',
+    note:'Micro-marques d’impact sur les faces, normales à l’usage. Grips changés.', defect:{at:[110,130],label:'Face marquée'},
+    checks:['Grips neufs','Shafts droits','Lofts vérifiés'], specs:{Composition:'6 clubs (5 à PW)',Shaft:'Acier, regular',Latéralité:'Droitier'}},
+  {id:'driver-10-5', name:'Driver 10,5°', sport:'golf', size:'Stiff · droitier', st:2, price:119, was:349, seller:'gsc', art:'driver',
+    note:'Éclat de peinture sur la couronne (5 mm), en photo. Face intacte.', defect:{at:[150,96],label:'Éclat 5 mm'},
+    checks:['Face sans fissure','Grip en bon état','Couvre-club fourni'], specs:{Loft:'10,5°',Shaft:'Graphite, stiff',Latéralité:'Droitier'}},
+  {id:'sac-golf', name:'Sac de golf trépied', sport:'golf', size:'Taille unique', st:3, price:79, was:189, seller:'gsc', art:'golfbag',
+    note:'Pieds et sangles fonctionnels. Légère décoloration au fond.', checks:['Trépied testé','Fermetures fonctionnelles'], specs:{Poids:'2,1 kg',Séparateurs:'14'}},
+  {id:'chariot-golf', name:'Chariot de golf 3 roues', sport:'golf', size:'Taille unique', st:1, price:55, was:199, seller:'gsc', art:'trolley',
+    note:'Rayures sur le châssis, pliage et frein fonctionnels. Prix en conséquence.', checks:['Frein testé','Pliage fluide'], specs:{Roues:'3',Plié:'60 × 40 × 30 cm'}}
+];
+const byId = id => P.find(p=>p.id===id);
+const eur = n => n.toLocaleString('fr-FR',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+' €';
+const eur2 = n => n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const stateBadge = s => `<span class="state s${s}">${STATES[s][0]} <span class="dots" aria-hidden="true">${[1,2,3,4].map(i=>`<i class="${i<=s?'on':''}"></i>`).join('')}</span><span class="sr">, état ${s} sur 4</span></span>`;
+const ico = (n,cls='ic') => `<svg class="${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const trustBadges = (all=true) => `<div class="trust"><span class="tbadge">${ico('shield')}Contrôlé par un revendeur pro</span><span class="tbadge">${ico('return')}Retour 14 jours</span>${all?`<span class="tbadge">${ico('card')}Paiement sécurisé</span>`:''}</div>`;
+
+/* ---------- Stockage local (confort uniquement) ---------- */
+const store = {
+  get(k,d){try{const v=localStorage.getItem('sa_'+k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem('sa_'+k,JSON.stringify(v))}catch(e){}}
+};
+let cart = store.get('cart',[]).filter(byId);
+const filters = {sport:'all', states:[], size:'', max:600, sort:'pertinence', q:''};
+
+/* ---------- Composants ---------- */
+function card(p){
+  const inCart = cart.includes(p.id);
+  const pct = Math.round((1-p.price/p.was)*100);
+  return `<a class="card" href="#produit-${p.id}">
+    <div class="ph">${drawing(p)}${stateBadge(p.st)}<span class="save num">−${pct} %</span></div>
+    <div class="body">
+      <span class="sub">${SPORTS[p.sport]} · ${p.size}</span>
+      <h3>${p.name}</h3>
+      <span class="sub">Vendu par ${SELLERS[p.seller].name}</span>
+      <div class="row"><span class="price">${eur(p.price)}</span><span class="was">${eur(p.was)} neuf</span></div>
+    </div>
+    <button class="quick ${inCart?'added':''}" data-add="${p.id}" aria-label="${inCart?'Déjà dans le panier':'Ajouter au panier'} : ${p.name}">${ico(inCart?'check':'plus')}</button>
+  </a>`;
+}
+function alertForm(prefix, sport='', size=''){
+  return `<form class="stack" id="${prefix}Alert" novalidate>
+    <div class="row2">
+      <div class="field"><label for="${prefix}Sport">Sport</label><select id="${prefix}Sport"><option value="ski" ${sport==='ski'?'selected':''}>Ski</option><option value="golf" ${sport==='golf'?'selected':''}>Golf</option><option value="velo" ${sport==='velo'?'selected':''}>Vélo</option></select></div>
+      <div class="field"><label for="${prefix}Size">Ta taille</label><input id="${prefix}Size" placeholder="42, 170 cm, M…" value="${size}"><span class="err">Indique une taille.</span></div>
+    </div>
+    <div class="field"><label for="${prefix}Mail">E-mail</label><input id="${prefix}Mail" type="email" placeholder="toi@exemple.fr" autocomplete="email"><span class="err">Vérifie ton e-mail, il manque quelque chose.</span></div>
+    <button class="btn btn-orange" type="submit">${ico('bell')}Activer l’alerte taille</button>
+    <p class="demo-note">Prototype : rien n’est envoyé. Un e-mail par arrivée, désinscription en un clic.</p>
+  </form>`;
+}
+function bindAlert(prefix){
+  const f = document.getElementById(prefix+'Alert'); if(!f) return;
+  f.addEventListener('submit', e=>{
+    e.preventDefault();
+    const size=f.querySelector('#'+prefix+'Size'), mail=f.querySelector('#'+prefix+'Mail'), sp=f.querySelector('#'+prefix+'Sport');
+    let ok=true;
+    [[size, size.value.trim().length>0],[mail, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail.value.trim())]].forEach(([el,v])=>{el.closest('.field').classList.toggle('invalid',!v); if(!v) ok=false;});
+    if(!ok){f.querySelector('.invalid input')?.focus();return;}
+    f.outerHTML = `<div class="ok">${ico('check')}<div><b>C’est noté.</b><p>On t’écrit dès qu’un article de ${SPORTS[sp.value].toLowerCase()} en taille ${escapeHtml(size.value.trim())} arrive, avec son état et ses défauts en photo.</p></div></div>`;
+  });
+}
+const escapeHtml = s => s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Diaporama d'accueil ---------- */
+const SLIDES = [
+  {img:'slide-ski.jpg', pos:'65% 40%', tag:'Ski · prêt pour la saison'},
+  {img:'slide-velo.jpg', pos:'60% 45%', tag:'Vélo · route, VTT, enfant'},
+  {img:'slide-golf.jpg', pos:'70% 55%', tag:'Golf · fers, drivers, sacs'}
+];
+function initSlides(){
+  const root=document.getElementById('heroSlides'); if(!root) return;
+  const sl=[...root.querySelectorAll('.slide')], dots=[...root.querySelectorAll('[data-slide]')], tag=document.getElementById('slideTag');
+  let i=0;
+  const go=(n,dir=1)=>{
+    const ni=(n+sl.length)%sl.length; if(ni===i) return;
+    const cur=sl[i], nx=sl[ni];
+    nx.style.transition='none'; nx.style.transform=`translateX(${dir*100}%)`; void nx.offsetWidth;
+    sl.forEach(s=>s.classList.remove('on','out')); cur.classList.add('out'); nx.classList.add('on');
+    nx.style.transition=''; nx.style.transform='translateX(0)'; cur.style.transform=`translateX(${-dir*100}%)`;
+    i=ni; dots.forEach((d,k)=>d.setAttribute('aria-current',k===i)); tag.textContent=SLIDES[i].tag;
+  };
+  root.addEventListener('animationend',e=>{ if(e.animationName==='fillbar') go(i+1,1); });
+  dots.forEach(d=>d.addEventListener('click',e=>{ e.stopPropagation(); const n=+d.dataset.slide; go(n, n>i?1:-1); }));
+  root.querySelectorAll('.sl-arrow').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); const d=+b.dataset.dir; go(i+d,d); }));
+  root.addEventListener('click',e=>{ if(e.target.closest('.hero-copy,.slide-ui')) return; go(i+1,1); });
+  root.addEventListener('keydown',e=>{ if(e.target.closest('input,select')) return; if(e.key==='ArrowRight'){go(i+1,1);} if(e.key==='ArrowLeft'){go(i-1,-1);} });
+  const pause=on=>root.classList.toggle('slides-paused',on);
+  root.addEventListener('mouseenter',()=>pause(true)); root.addEventListener('mouseleave',()=>pause(false));
+  root.addEventListener('focusin',()=>pause(true)); root.addEventListener('focusout',e=>{ if(!root.contains(e.relatedTarget)) pause(false); });
+  let x0=null;
+  root.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+  root.addEventListener('touchend',e=>{ if(x0==null) return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>50 && !e.target.closest('form')){ const d=dx<0?1:-1; go(i+d,d); } x0=null; });
+}
+
+/* ---------- Bannière Black Friday ---------- */
+(function(){
+  const item=`<span class="bf-item"><b>BLACK FRIDAY</b><span>Jusqu’à <span class="bf-o">−75 %</span> par rapport au neuf</span><i></i><span>Du 23 au 30 novembre</span><i></i><span>Chaque article contrôlé par un pro</span><i></i><span>Retour 14 jours, même en promo</span><i></i></span>`;
+  document.getElementById('bfTrack').innerHTML=item.repeat(4);
+})();
+
+/* ---------- Vues ---------- */
+const V = {};
+V.accueil = () => `
+<div class="view">
+  <section class="hero"><div class="wrap">
+    <div class="hero-panel hero-photo" id="heroSlides">
+      <div class="slides" aria-hidden="true">${SLIDES.map((s,i)=>`<div class="slide ${i===0?'on':''}" style="background-image:url('img/${s.img}');background-position:${s.pos}"></div>`).join('')}</div>
+      <div class="slide-ui"><span class="slide-tag" id="slideTag" aria-live="polite">${SLIDES[0].tag}</span><button class="sl-arrow" type="button" data-dir="-1" aria-label="Image précédente"><svg class="ic" style="transform:scaleX(-1)"><use href="#i-arrow"/></svg></button><div class="dots-nav">${SLIDES.map((s,i)=>`<button type="button" data-slide="${i}" aria-label="Image ${i+1} : ${s.tag}" aria-current="${i===0}"></button>`).join('')}</div><button class="sl-arrow" type="button" data-dir="1" aria-label="Image suivante"><svg class="ic"><use href="#i-arrow"/></svg></button></div>
+      <div class="hero-copy">
+        <h1>La seconde main <em>sans mauvaise surprise.</em></h1>
+        <p class="lead">Du matériel de sport contrôlé par des revendeurs pros. État noté sur 4, défauts en photo, retour 14 jours.</p>
+        <form class="finder" id="finder">
+          <label for="fSport"><span>Sport</span><select id="fSport"><option value="all">Tous les sports</option><option value="ski">Ski</option><option value="golf">Golf</option><option value="velo">Vélo</option></select></label>
+          <label for="fSize"><span>Ta taille</span><input id="fSize" placeholder="42, 170 cm, M…" autocomplete="off"></label>
+          <button class="btn" type="submit">${ico('search')}Trouver mon équipement</button>
+        </form>
+        ${trustBadges()}
+      </div>
+    </div>
+    <div class="reassure">
+      <div>${ico('shield')}<p><b>Vendu par des pros</b><span>Chaque article vient d’un magasin vérifié.</span></p></div>
+      <div>${ico('ruler')}<p><b>État noté sur 4</b><span>Les défauts sont cotés et photographiés.</span></p></div>
+      <div>${ico('return')}<p><b>14 jours pour changer d’avis</b><span>Remboursement sous 5 jours.</span></p></div>
+      <div>${ico('card')}<p><b>Paiement sécurisé</b><span>Le vendeur est payé après réception.</span></p></div>
+    </div>
+  </div></section>
+
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Trois sports, une saison d’avance</span><h2>Choisis ton terrain</h2></div><a class="btn btn-ghost" href="#acheter">Voir tous les articles</a></div>
+    <div class="cats">
+      ${['ski','golf','velo'].map((s,i)=>{const n=P.filter(p=>p.sport===s).length;const bg=['var(--orange)','var(--podium)','var(--piste)'][i];const art=[P[4],P[8],P[0]][i];const line=['Skis, chaussures, masques','Fers, drivers, sacs','Route, VTT, enfant'][i];
+      return `<a class="cat" href="#acheter" data-sport="${s}"><div class="art" style="background:${bg}">${drawing(art,'face','')}</div><div class="meta"><div><h3>${SPORTS[s]}</h3><p>${line} · ${n} articles</p></div><span class="arrow">${ico('arrow')}</span></div></a>`}).join('')}
+    </div>
+  </div></section>
+
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Sélection de la semaine</span><h2>Contrôlé, photographié, prêt pour la saison</h2></div></div>
+    <div class="grid">${[P[0],P[4],P[8],P[2]].map(card).join('')}</div>
+  </div></section>
+
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">L’état, noté sur 4</span><h2>Tu sais ce que tu achètes</h2><p class="lead">Le revendeur note chaque article et photographie chaque défaut en gros plan, avec sa taille. Le prix suit l’état.</p></div></div>
+    <div class="scale">${[4,3,2,1].map(s=>`<div>${stateBadge(s)}<p>${STATES[s][1]}.</p><span class="ex">Ex. : ${['masque porté deux fois','rayure 2 cm sur un cadre','chausson tassé au talon','carres usées, idéal pour apprendre'][4-s]}</span></div>`).join('')}</div>
+  </div></section>
+
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Comment ça marche</span><h2>Trois étapes, aucune surprise</h2></div></div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Tu choisis</h3><p>Filtre par sport, taille et état. Chaque fiche montre les défauts en photo et le magasin qui vend.</p></div>
+      <div class="step"><span class="n">2</span><h3>Tu paies en sécurité</h3><p>Paiement en ligne. L’article part sous 48 h, ou tu le retires chez le revendeur à Lyon.</p></div>
+      <div class="step"><span class="n">3</span><h3>Tu gardes, ou tu renvoies</h3><p>S’il ne te va pas, tu as 14 jours pour le renvoyer. Remboursement sous 5 jours.</p></div>
+    </div>
+  </div></section>
+
+  <section class="block" style="padding-top:0" id="alerte"><div class="wrap">
+    <div class="band band-stripes">
+      <div style="display:grid;gap:14px"><span class="eyebrow">Alerte taille</span><h2>Ta taille n’est pas là ? Elle arrive.</h2><p class="lead">Les magasins ajoutent des articles chaque semaine. Indique ton sport et ta taille, on te prévient dès qu’un article correspond.</p></div>
+      <div class="card-form">${alertForm('home')}</div>
+    </div>
+  </div></section>
+
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="band band-dark">
+      <div style="display:grid;gap:14px"><span class="eyebrow" style="color:var(--podium)">Vous êtes un magasin de sport ?</span><h2 style="color:#fff">Vos invendus de saison ont <em>un deuxième marché.</em></h2><p class="lead">Des acheteurs qualifiés, sans toucher à votre circuit neuf. Commission affichée avant publication.</p><div><a class="btn btn-orange" href="#vendre">Devenir vendeur</a></div></div>
+      <div class="stats"><div><b>3 min</b><span>pour lister votre premier lot</span></div><div><b>15 %</b><span>de commission, affichée avant publication</span></div><div><b>0 €</b><span>d’abonnement pendant le pilote</span></div></div>
+    </div>
+  </div></section>
+</div>`;
+
+V.acheter = () => `
+<div class="view"><section class="block" style="padding-top:36px"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">Catalogue pilote</span><h2>Tout le matériel contrôlé</h2></div></div>
+  <div class="shop">
+    <aside class="filters" id="filters" aria-label="Filtres">
+      <div class="close-f" style="justify-content:space-between;align-items:center"><h3>Filtres</h3><button class="icon-btn" id="closeFilters" aria-label="Fermer les filtres">${ico('x')}</button></div>
+      <div><h4>Sport</h4><div class="chips">${[['all','Tous'],['ski','Ski'],['golf','Golf'],['velo','Vélo']].map(([v,l])=>`<button class="chip" type="button" data-fsport="${v}" aria-pressed="${filters.sport===v}">${l}</button>`).join('')}</div></div>
+      <div><h4>État</h4>${[4,3,2,1].map(s=>`<label class="check"><input type="checkbox" value="${s}" data-fstate ${filters.states.includes(s)?'checked':''}> ${stateBadge(s)}</label>`).join('')}</div>
+      <div><h4><label for="fSizeSel">Taille</label></h4><div class="field"><select id="fSizeSel"></select></div></div>
+      <div><h4><label for="fMax">Prix maximum</label></h4><input type="range" id="fMax" min="40" max="600" step="10" value="${filters.max}"><div class="range-val num"><span>40 €</span><b id="fMaxVal">${filters.max>=600?'Sans limite':eur(filters.max)}</b></div></div>
+      <button class="btn btn-ghost" type="button" id="resetF">Effacer les filtres</button>
+      <button class="btn btn-primary close-f" type="button" id="applyF">Voir les articles</button>
+    </aside>
+    <div style="min-width:0">
+      <div class="shop-top">
+        <p class="small" aria-live="polite"><b class="num" id="resCount">0</b> articles<span id="qLabel"></span></p>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-ghost filter-toggle" type="button" id="openFilters" style="min-height:42px">${ico('filter')}Filtres</button>
+          <label for="sortSel" class="sr">Trier</label>
+          <select id="sortSel"><option value="pertinence">Pertinence</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option><option value="state">Meilleur état</option><option value="save">Plus grosse économie</option></select>
+        </div>
+      </div>
+      <div id="results"></div>
+    </div>
+  </div>
+</div></section></div>`;
+
+V.produit = (id) => {
+  const p = byId(id); if(!p) return V.introuvable();
+  const s = SELLERS[p.seller]; const pct=Math.round((1-p.price/p.was)*100);
+  const views = [['face','Vue d’ensemble'],['tq','Gros plan']]; if(p.defect && (PHOTO[p.id]||{}).pt) views.push(['detail','Détail du défaut']);
+  const similar = P.filter(x=>x.sport===p.sport && x.id!==p.id).slice(0,3);
+  const inCart = cart.includes(p.id);
+  return `<div class="view"><div class="wrap">
+    <nav class="crumbs" aria-label="Fil d’Ariane"><a href="#accueil">Accueil</a><span>›</span><a href="#acheter" data-sport="${p.sport}">${SPORTS[p.sport]}</a><span>›</span><span>${p.name}</span></nav>
+    <div class="pdp">
+      <div class="gallery">
+        <div class="stage" id="stage">${drawing(p,'face')}<span class="cap" id="stageCap">Photo 1 : vue d’ensemble</span></div>
+        <div class="thumbs">${views.map(([v,l],i)=>`<button class="thumb" type="button" data-view="${v}" data-cap="Photo ${i+1} : ${l.toLowerCase()}" aria-pressed="${i===0}" aria-label="Photo ${i+1}, ${l}">${drawing(p,v,'')}<span>${i+1} · ${l}</span></button>`).join('')}</div>
+        <p class="small">${p.defect?'Le défaut noté est cadré en gros plan sur la photo 3.':'Aucun défaut à signaler sur cet exemplaire.'}</p>
+      </div>
+      <div class="buy">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${stateBadge(p.st)}<span class="small">${SPORTS[p.sport]} · Taille ${p.size}</span></div>
+        <h1 style="font-size:clamp(30px,3.4vw,42px)">${p.name}</h1>
+        <div class="seller">${ico('shield')}Vendu par <b style="color:var(--fg)">${s.name}</b> · revendeur vérifié · ${s.area}</div>
+        <div class="prices"><span class="price">${eur2(p.price)}</span><span class="was">${eur2(p.was)} neuf</span><span class="save-pill num">−${pct} %</span></div>
+        <div class="note">
+          <p><b>État ${p.st}/4 · ${STATES[p.st][0]}.</b> ${p.note}</p>
+          <ul class="checks">${p.checks.map(c=>`<li>${ico('check')}${c}</li>`).join('')}</ul>
+        </div>
+        <div class="buy-actions">
+          <button class="btn btn-primary btn-block" type="button" id="addMain" data-add="${p.id}">${inCart?ico('check')+'Dans ton panier':'Ajouter au panier'}</button>
+          <a class="btn btn-ghost" href="#alerte-${p.sport}" title="Alerte taille" aria-label="Créer une alerte taille">${ico('bell')}</a>
+        </div>
+        ${trustBadges()}
+        <div>
+          <details class="acc" open><summary>Caractéristiques<span class="pm">${ico('plus')}</span></summary><dl class="specs a">${Object.entries(p.specs).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></details>
+          <details class="acc"><summary>Livraison et retrait<span class="pm">${ico('plus')}</span></summary><p class="a">Envoi sous 48 h en Colissimo (6,90 €), ou retrait gratuit chez ${s.name}, ${s.area}.</p></details>
+          <details class="acc"><summary>Retour 14 jours<span class="pm">${ico('plus')}</span></summary><p class="a">S’il ne te va pas, tu as 14 jours pour le renvoyer. Remboursement sous 5 jours après réception par le magasin.</p></details>
+        </div>
+      </div>
+    </div>
+    ${similar.length?`<section style="padding-bottom:56px"><div class="sec-head"><div><span class="eyebrow">Même terrain</span><h2>Tu pourrais aussi aimer</h2></div></div><div class="grid">${similar.map(card).join('')}</div></section>`:''}
+  </div>
+  <div class="sticky-buy" id="stickyBuy"><div><span class="price" style="font-size:22px">${eur2(p.price)}</span> <span class="small">${STATES[p.st][0]}</span></div><button class="btn btn-primary" type="button" data-add="${p.id}">Ajouter au panier</button></div>
+  </div>`;
+};
+
+V.vendre = () => `
+<div class="view">
+  <section class="hero"><div class="wrap">
+    <div class="hero-panel hero-even">
+      <div class="hero-copy">
+        <span class="eyebrow" style="color:var(--podium)">Pour les magasins et clubs de sport</span>
+        <h1 style="margin-top:14px">Vos invendus de saison ont <em>un deuxième marché.</em></h1>
+        <p class="lead">Sport Again vous donne accès à des acheteurs qualifiés à Lyon, sans toucher à votre circuit neuf. Commission affichée avant publication. Trois minutes pour lister votre premier lot.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn btn-orange" href="#vendre-form">Rejoindre le pilote</a><a class="btn" style="color:#fff;border-color:rgba(255,255,255,.4)" href="#vendre-calc">Estimer vos revenus</a></div>
+      </div>
+      <div class="calc" id="vendre-calc">
+        <div><span class="eyebrow">Simulateur</span><h3 style="margin-top:6px">Ce que vous rapporte votre occasion</h3></div>
+        <div class="field"><label for="cPrice">Prix de vente moyen : <b class="num" id="cPriceV">150 €</b></label><input type="range" id="cPrice" min="30" max="600" step="10" value="150"></div>
+        <div class="field"><label for="cQty">Ventes par mois : <b class="num" id="cQtyV">10</b></label><input type="range" id="cQty" min="1" max="60" step="1" value="10"></div>
+        <div class="out">
+          <div><b id="cGross" class="num">1 500 €</b><span>Chiffre d’affaires mensuel</span></div>
+          <div><b id="cNet" class="num" style="color:var(--succes)">1 275 €</b><span>Reversé, après commission</span></div>
+        </div>
+        <p class="small">Commission de 15 % par vente (hypothèse du pilote), sans abonnement. Le taux définitif vous est communiqué avant toute publication.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="block"><div class="wrap two">
+    <div style="display:grid;gap:18px">
+      <span class="eyebrow">Ce qui change pour vous</span><h2>Trois étapes, aucun stock à déplacer</h2>
+      <div class="steps" style="grid-template-columns:1fr">
+        <div class="step"><span class="n">1</span><h3>Vous listez</h3><p>Photo, état noté sur 4, taille et prix. Le premier lot prend environ trois minutes.</p></div>
+        <div class="step"><span class="n">2</span><h3>Nous trouvons l’acheteur</h3><p>Votre article apparaît dans le catalogue ski, golf ou vélo, et part dans les alertes taille correspondantes.</p></div>
+        <div class="step"><span class="n">3</span><h3>Vous expédiez ou remettez en boutique</h3><p>Paiement sécurisé : vous êtes payé à la réception par l’acheteur, commission déduite.</p></div>
+      </div>
+    </div>
+    <div class="objection">
+      <span class="eyebrow">Vos questions</span><h2>Ce que les gérants nous demandent</h2>
+      <div><b>Cela va-t-il cannibaliser mes ventes de neuf ?</b><p>Non. Vous choisissez ce que vous mettez en vente : fins de série, retours, reprises. Votre vitrine neuve reste intacte.</p></div>
+      <div><b>Combien cela coûte ?</b><p>Aucun abonnement pendant le pilote. Une commission par vente, affichée avant chaque publication.</p></div>
+      <div><b>Qui gère les retours ?</b><p>L’acheteur a 14 jours. L’article vous revient dans l’état noté ; un litige est arbitré par Sport Again sur la base des photos.</p></div>
+      <div><b>Combien de temps cela me prend ?</b><p>Trois minutes par lot à la mise en ligne, puis l’emballage ou la remise en boutique.</p></div>
+    </div>
+  </div></section>
+
+  <section class="block" style="padding-top:0" id="vendre-form"><div class="wrap">
+    <div class="band band-stripes">
+      <div style="display:grid;gap:14px"><span class="eyebrow">Programme pilote · Lyon</span><h2>Rejoignez les 20 premiers distributeurs</h2><p class="lead">Nous vous rappelons sous 48 h ouvrées pour un rendez-vous de 20 minutes, en boutique ou en visio.</p>${trustBadges(false)}</div>
+      <div class="card-form" id="b2bWrap">
+        <form class="stack" id="b2b" novalidate>
+          <div class="field"><label for="bShop">Nom du magasin ou du club</label><input id="bShop" autocomplete="organization"><span class="err">Indiquez le nom de votre structure.</span></div>
+          <div class="row2">
+            <div class="field"><label for="bCity">Ville</label><input id="bCity" value="Lyon"></div>
+            <div class="field"><label for="bSport">Sport principal</label><select id="bSport"><option>Ski</option><option>Golf</option><option>Vélo</option><option>Multisport</option></select></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="bQty">Articles d’occasion en stock</label><select id="bQty"><option>Moins de 20</option><option>20 à 60</option><option>Plus de 60</option></select></div>
+            <div class="field"><label for="bMail">E-mail professionnel</label><input id="bMail" type="email" autocomplete="email"><span class="err">Vérifiez l’adresse e-mail.</span></div>
+          </div>
+          <button class="btn btn-primary" type="submit">Être rappelé</button>
+          <p class="demo-note">Prototype : rien n’est envoyé.</p>
+        </form>
+      </div>
+    </div>
+  </div></section>
+</div>`;
+
+V.aide = () => `
+<div class="view"><section class="block" style="padding-top:40px"><div class="wrap two">
+  <div style="display:grid;gap:14px;align-content:start">
+    <span class="eyebrow">Aide</span><h2>Une question ? La réponse tient en une phrase.</h2>
+    <p class="lead">Et si elle n’y est pas, un humain te répond à Lyon, du lundi au samedi.</p>
+    <div class="note" style="margin-top:8px">
+      <div style="display:flex;gap:10px;align-items:center">${ico('chat')}<b style="font-family:var(--f-display)">Contact</b></div>
+      <p class="small">E-mail : <span style="user-select:all;color:var(--fg)">bonjour@sportagain.fr</span> · réponse sous 24 h</p>
+      <p class="small">${ico('pin','ic')} Lyon 7e</p>
+    </div>
+  </div>
+  <div>
+    ${[
+      ['Comment est noté l’état ?','Sur 4, par le revendeur : Comme neuf (aucune trace), Très bon (micro-marques), Bon (signes d’usage légers), Correct (usure visible, prix en conséquence). Chaque défaut est photographié en gros plan, avec sa taille.'],
+      ['Et si l’article ne me va pas ?','Tu as 14 jours après réception pour le renvoyer. Remboursement sous 5 jours après réception par le magasin.'],
+      ['Quand mon article part-il ?','Sous 48 h en Colissimo (6,90 €). Tu peux aussi le retirer gratuitement chez le revendeur, à Lyon.'],
+      ['Le paiement est-il sécurisé ?','Oui. Tu paies en ligne, le vendeur n’est payé qu’une fois l’article reçu. Rien n’est débité si le paiement échoue.'],
+      ['Que se passe-t-il en cas de litige ?','Sport Again arbitre sur la base des photos de la fiche. Si l’état ne correspond pas, tu es remboursé, frais de retour compris.'],
+      ['Qui sont les vendeurs ?','Uniquement des magasins et clubs de sport vérifiés. Aucun particulier ne vend sur Sport Again.'],
+      ['Je ne trouve pas ma taille.','Pas de panique : active l’alerte taille, on te prévient dès qu’elle arrive.']
+    ].map(([q,a],i)=>`<details class="acc" ${i===0?'open':''}><summary>${q}<span class="pm">${ico('plus')}</span></summary><p class="a">${a}</p></details>`).join('')}
+  </div>
+</div></section></div>`;
+
+V.introuvable = () => `<div class="view"><section class="block"><div class="wrap"><div class="empty"><span class="eyebrow">Article introuvable</span><h2>Cet article n’est plus disponible.</h2><p class="lead">Voici 3 articles similaires, tous contrôlés.</p></div><div class="grid" style="margin-top:20px">${P.slice(0,3).map(card).join('')}</div></div></section></div>`;
+
+/* ---------- Catalogue : filtres ---------- */
+function sizesFor(sport){ return [...new Set(P.filter(p=>sport==='all'||p.sport===sport).map(p=>p.size))]; }
+function renderResults(){
+  const el = document.getElementById('results'); if(!el) return;
+  const q = filters.q.toLowerCase().trim();
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  let list = P.filter(p=>
+    (filters.sport==='all'||p.sport===filters.sport) &&
+    (!filters.states.length||filters.states.includes(p.st)) &&
+    (!filters.size||norm(p.size).includes(norm(filters.size))) &&
+    (filters.max>=600||p.price<=filters.max) &&
+    (!q || q.split(/\s+/).every(w=>norm(p.name+' '+p.size+' '+SPORTS[p.sport]+' '+SELLERS[p.seller].name).includes(norm(w))))
+  );
+  const sorts = {asc:(a,b)=>a.price-b.price, desc:(a,b)=>b.price-a.price, state:(a,b)=>b.st-a.st, save:(a,b)=>(b.was-b.price)-(a.was-a.price)};
+  if(sorts[filters.sort]) list = [...list].sort(sorts[filters.sort]);
+  document.getElementById('resCount').textContent = list.length;
+  document.getElementById('qLabel').textContent = q?` pour « ${filters.q} »`:'';
+  const wanted = filters.size || q;
+  el.innerHTML = list.length ? `<div class="grid">${list.map(card).join('')}</div>` :
+    `<div class="empty"><span class="eyebrow">Taille introuvable</span><h3>Pas de panique : active l’alerte, on te prévient dès qu’elle arrive.</h3><div style="width:100%;max-width:520px">${alertForm('shop', filters.sport==='all'?'ski':filters.sport, wanted?escapeHtml(wanted):'')}</div><button class="btn btn-ghost" type="button" id="resetF2">Effacer les filtres</button></div>`;
+  bindAlert('shop');
+  document.getElementById('resetF2')?.addEventListener('click', resetFilters);
+}
+function fillSizeSel(){
+  const sel = document.getElementById('fSizeSel'); if(!sel) return;
+  const opts = sizesFor(filters.sport);
+  if(filters.size && !opts.some(o=>o.toLowerCase()===filters.size.toLowerCase())) opts.unshift(filters.size);
+  sel.innerHTML = `<option value="">Toutes les tailles</option>`+opts.map(o=>`<option ${o.toLowerCase()===filters.size.toLowerCase()?'selected':''}>${escapeHtml(o)}</option>`).join('');
+}
+function resetFilters(){ Object.assign(filters,{sport:'all',states:[],size:'',max:600,sort:'pertinence',q:''}); document.getElementById('q').value=''; render(); }
+function bindShop(){
+  fillSizeSel(); renderResults();
+  document.getElementById('sortSel').value = filters.sort;
+  document.querySelectorAll('[data-fsport]').forEach(b=>b.addEventListener('click',()=>{
+    filters.sport=b.dataset.fsport; filters.size='';
+    document.querySelectorAll('[data-fsport]').forEach(x=>x.setAttribute('aria-pressed',x===b)); fillSizeSel(); renderResults();
+  }));
+  document.querySelectorAll('[data-fstate]').forEach(c=>c.addEventListener('change',()=>{
+    filters.states=[...document.querySelectorAll('[data-fstate]:checked')].map(x=>+x.value); renderResults();
+  }));
+  document.getElementById('fSizeSel').addEventListener('change',e=>{filters.size=e.target.value; renderResults();});
+  const r=document.getElementById('fMax'); r.addEventListener('input',()=>{filters.max=+r.value; document.getElementById('fMaxVal').textContent=filters.max>=600?'Sans limite':eur(filters.max); renderResults();});
+  document.getElementById('sortSel').addEventListener('change',e=>{filters.sort=e.target.value; renderResults();});
+  document.getElementById('resetF').addEventListener('click',resetFilters);
+  const fl=document.getElementById('filters');
+  const openF=()=>{fl.classList.add('open'); scrim.classList.add('on'); scrimFor='filters';};
+  document.getElementById('openFilters').addEventListener('click',openF);
+  [document.getElementById('closeFilters'),document.getElementById('applyF')].forEach(b=>b.addEventListener('click',closeOverlays));
+}
+
+/* ---------- Fiche produit ---------- */
+function bindProduct(id){
+  const p = byId(id); if(!p) return;
+  const stage=document.getElementById('stage'), cap=document.getElementById('stageCap');
+  document.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.thumb').forEach(x=>x.setAttribute('aria-pressed',x===t));
+    const v=t.dataset.view;
+    const old=stage.querySelector('.pic'); old.style.transition='opacity .18s'; old.style.opacity='0';
+    setTimeout(()=>{ old.outerHTML=drawing(p,v); const n=stage.querySelector('.pic'); n.style.opacity='0'; requestAnimationFrame(()=>requestAnimationFrame(()=>{n.style.transition='opacity .3s';n.style.opacity='1';})); cap.textContent=t.dataset.cap; },160);
+  }));
+  const sb=document.getElementById('stickyBuy'), main=document.getElementById('addMain');
+  if('IntersectionObserver' in window && sb && main){
+    new IntersectionObserver(([e])=>sb.classList.toggle('show',!e.isIntersecting && e.boundingClientRect.top<0)).observe(main);
+  }
+}
+
+/* ---------- Vendre ---------- */
+function bindSell(){
+  const pr=document.getElementById('cPrice'), q=document.getElementById('cQty');
+  const upd=()=>{const g=+pr.value*+q.value; document.getElementById('cPriceV').textContent=eur(+pr.value); document.getElementById('cQtyV').textContent=q.value; document.getElementById('cGross').textContent=eur(g); document.getElementById('cNet').textContent=eur(Math.round(g*.85));};
+  pr.addEventListener('input',upd); q.addEventListener('input',upd); upd();
+  const f=document.getElementById('b2b');
+  f.addEventListener('submit',e=>{
+    e.preventDefault();
+    const shop=f.querySelector('#bShop'), mail=f.querySelector('#bMail'); let ok=true;
+    [[shop,shop.value.trim().length>1],[mail,/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail.value.trim())]].forEach(([el,v])=>{el.closest('.field').classList.toggle('invalid',!v); if(!v) ok=false;});
+    if(!ok){f.querySelector('.invalid input')?.focus();return;}
+    document.getElementById('b2bWrap').innerHTML=`<div class="ok">${ico('check')}<div><b>Demande reçue pour ${escapeHtml(shop.value.trim())}.</b><p>Nous vous rappelons sous 48 h ouvrées pour fixer un rendez-vous de 20 minutes. Votre premier lot peut être en ligne le jour même.</p></div></div>`;
+  });
+}
+
+/* ---------- Panier ---------- */
+const drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim');
+let scrimFor=null, step='cart', delivery='retrait';
+function saveCart(){ store.set('cart',cart); updateCount(true); }
+function updateCount(bump){
+  ['cartCount','cartCount2'].forEach(id=>{const c=document.getElementById(id); c.textContent=cart.length; c.hidden=!cart.length; if(bump){c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');}});
+}
+function addToCart(id){
+  const p=byId(id); if(!p) return;
+  if(cart.includes(id)){ toast(`${p.name} est déjà dans ton panier.`); return; }
+  cart.push(id); saveCart();
+  document.querySelectorAll(`[data-add="${id}"]`).forEach(b=>{
+    if(b.classList.contains('quick')){b.classList.add('added'); b.innerHTML=ico('check'); b.setAttribute('aria-label','Déjà dans le panier : '+p.name);}
+    else if(b.id==='addMain'){b.innerHTML=ico('check')+'Dans ton panier';}
+  });
+  toast(`Ajouté : ${p.name}, ${eur(p.price)}`);
+}
+function totals(){ const sub=cart.reduce((s,id)=>s+byId(id).price,0); const ship=delivery==='colis'&&cart.length?6.9:0; return {sub,ship,tot:sub+ship}; }
+function renderDrawer(){
+  const body=document.getElementById('drawerBody'), foot=document.getElementById('drawerFoot'), title=document.getElementById('drawerTitle');
+  const prog = n => `<div class="progress" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
+  const t=totals();
+  if(step==='done'){
+    title.textContent='Commande validée';
+    body.innerHTML=`<div class="ok">${ico('check')}<div><b>Commande validée.</b><p>Ton article part sous 48 h. Tu as 14 jours pour le retourner.</p></div></div><p class="small">Un récapitulatif t’attend par e-mail, avec les photos de l’état de chaque article.</p>`;
+    foot.innerHTML=`<button class="btn btn-primary" type="button" data-go="acheter">Continuer mes achats</button>`;
+    return;
+  }
+  if(!cart.length){
+    title.textContent='Ton panier';
+    body.innerHTML=`<div class="empty" style="justify-items:center;text-align:center"><svg class="ic" style="width:40px;height:40px;color:var(--primary)"><use href="#i-bag"/></svg><h3>Ton panier est vide</h3><p class="small">Tout le matériel est contrôlé par un revendeur pro.</p></div>`;
+    foot.innerHTML=`<button class="btn btn-primary" type="button" data-go="acheter">Voir les articles</button>`;
+    return;
+  }
+  if(step==='cart'){
+    title.textContent=`Ton panier (${cart.length})`;
+    body.innerHTML=prog(1)+cart.map(id=>{const p=byId(id);return `<div class="line"><a class="mini" href="#produit-${p.id}" data-close>${drawing(p,'face','')}</a><div style="min-width:0"><b>${p.name}</b><span class="sub">${STATES[p.st][0]} · ${p.size} · ${SELLERS[p.seller].name}</span><br><button class="rm" type="button" data-rm="${p.id}">Retirer</button></div><span class="price num" style="font-size:17px">${eur(p.price)}</span></div>`}).join('')+trustBadges(false);
+    foot.innerHTML=`<div class="tot"><span>Sous-total</span><b class="num">${eur2(t.sub)}</b></div><button class="btn btn-primary" type="button" data-step="ship">Passer commande</button>`;
+  } else if(step==='ship'){
+    title.textContent='Livraison';
+    body.innerHTML=prog(2)+`
+      <label class="opt"><input type="radio" name="dl" value="retrait" ${delivery==='retrait'?'checked':''}><div><b>Retrait chez le revendeur · gratuit</b><span>Lyon, prêt sous 24 h. Tu vois l’article avant de partir.</span></div></label>
+      <label class="opt"><input type="radio" name="dl" value="colis" ${delivery==='colis'?'checked':''}><div><b>Colissimo · 6,90 €</b><span>Envoi sous 48 h, suivi inclus.</span></div></label>`;
+    foot.innerHTML=`<div class="tot"><span>Livraison</span><b class="num">${t.ship?eur2(t.ship):'Gratuit'}</b></div><div class="tot big"><span>Total</span><span class="num">${eur2(t.tot)}</span></div><div style="display:grid;grid-template-columns:auto 1fr;gap:10px"><button class="btn btn-ghost" type="button" data-step="cart">Retour</button><button class="btn btn-primary" type="button" data-step="pay">Continuer</button></div>`;
+  } else if(step==='pay'){
+    title.textContent='Paiement';
+    body.innerHTML=prog(3)+`<div class="note"><div style="display:flex;gap:10px;align-items:center">${ico('card')}<b style="font-family:var(--f-display)">Paiement sécurisé</b></div><p class="small">Le vendeur est payé seulement après réception. Rien n’est débité si le paiement échoue.</p></div>
+      <div class="note" style="border-style:dashed"><p class="small"><b style="color:var(--fg)">Prototype.</b> Le module de paiement n’est pas encore branché : aucune donnée bancaire n’est demandée ici. Le bouton ci-dessous simule une commande réussie.</p></div>
+      <div class="tot"><span>${cart.length} article${cart.length>1?'s':''}</span><span class="num">${eur2(t.sub)}</span></div><div class="tot"><span>Livraison</span><span class="num">${t.ship?eur2(t.ship):'Gratuit'}</span></div>`;
+    foot.innerHTML=`<div class="tot big"><span>Total</span><span class="num">${eur2(t.tot)}</span></div><div style="display:grid;grid-template-columns:auto 1fr;gap:10px"><button class="btn btn-ghost" type="button" data-step="ship">Retour</button><button class="btn btn-orange" type="button" data-step="done">Simuler le paiement</button></div>`;
+  }
+}
+function openDrawer(){ closeChat(); if(step==='done') step='cart'; renderDrawer(); drawer.classList.add('on'); drawer.setAttribute('aria-hidden','false'); scrim.classList.add('on'); scrimFor='drawer'; setTimeout(()=>document.getElementById('closeDrawer').focus(),50); }
+function closeOverlays(){
+  drawer.classList.remove('on'); drawer.setAttribute('aria-hidden','true'); scrim.classList.remove('on');
+  document.getElementById('filters')?.classList.remove('open'); scrimFor=null;
+  if(step==='done'){ cart=[]; saveCart(); step='cart'; render(); }
+}
+drawer.addEventListener('click',e=>{
+  const rm=e.target.closest('[data-rm]'); if(rm){ cart=cart.filter(x=>x!==rm.dataset.rm); saveCart(); renderDrawer(); refreshAddButtons(); return; }
+  const st=e.target.closest('[data-step]'); if(st){ step=st.dataset.step; renderDrawer(); drawer.querySelector('.db').scrollTop=0; return; }
+  const go=e.target.closest('[data-go]'); if(go){ closeOverlays(); location.hash=go.dataset.go; return; }
+  if(e.target.closest('[data-close]')) closeOverlays();
+});
+drawer.addEventListener('change',e=>{ if(e.target.name==='dl'){ delivery=e.target.value; renderDrawer(); }});
+function refreshAddButtons(){
+  document.querySelectorAll('.quick[data-add]').forEach(b=>{const inC=cart.includes(b.dataset.add); b.classList.toggle('added',inC); b.innerHTML=ico(inC?'check':'plus');});
+  const m=document.getElementById('addMain'); if(m) m.innerHTML=cart.includes(m.dataset.add)?ico('check')+'Dans ton panier':'Ajouter au panier';
+}
+document.getElementById('cartBtn').addEventListener('click',openDrawer);
+document.getElementById('cartTab').addEventListener('click',openDrawer);
+document.getElementById('closeDrawer').addEventListener('click',closeOverlays);
+scrim.addEventListener('click',closeOverlays);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && scrimFor) closeOverlays(); });
+
+/* ---------- Toast ---------- */
+let tt; const toastEl=document.getElementById('toast');
+function toast(msg){ document.getElementById('toastMsg').textContent=msg; toastEl.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>toastEl.classList.remove('on'),3200); }
+document.getElementById('toastBtn').addEventListener('click',()=>{toastEl.classList.remove('on'); openDrawer();});
+
+/* ---------- Délégation globale ---------- */
+document.addEventListener('click',e=>{
+  const add=e.target.closest('[data-add]');
+  if(add && !drawer.contains(add)){ e.preventDefault(); e.stopPropagation(); addToCart(add.dataset.add); return; }
+  if(e.target.closest('[data-bf]')){ e.preventDefault(); Object.assign(filters,{sport:'all',states:[],size:'',max:600,sort:'save',q:''}); document.getElementById('q').value=''; if(location.hash==='#acheter'){ render(); } else location.hash='acheter'; window.scrollTo({top:0}); return; }
+  const sp=e.target.closest('[data-sport]');
+  if(sp){ filters.sport=sp.dataset.sport; filters.size=''; filters.states=[]; filters.q=''; document.getElementById('q').value=''; if(location.hash==='#acheter'){ e.preventDefault(); render(); window.scrollTo({top:0}); } }
+});
+document.getElementById('topSearch').addEventListener('submit',e=>{
+  e.preventDefault(); filters.q=document.getElementById('q').value; filters.sport='all'; filters.size=''; filters.states=[];
+  if(location.hash==='#acheter') render(); else location.hash='acheter';
+});
+let qt; document.getElementById('q').addEventListener('input',e=>{ clearTimeout(qt); qt=setTimeout(()=>{ if(location.hash==='#acheter'){ filters.q=e.target.value; renderResults(); } },180); });
+
+/* ---------- Chatbot (réponses scriptées, ton de la marque) ---------- */
+const chat=document.getElementById('chat'), chatLog=document.getElementById('chatLog'), chatFab=document.getElementById('chatFab'), chatInput=document.getElementById('chatInput'), teaser=document.getElementById('chatTeaser');
+const norm2 = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const CHIPS = {
+  start:['État des articles','Retour 14 jours','Livraison','Trouver ma taille','Black Friday','Je suis un magasin'],
+  more:['Paiement sécurisé','Retour 14 jours','Voir les articles','Parler à un humain']
+};
+const INTENTS = [
+  {k:['bonjour','salut','hello','coucou','bonsoir','hey'], a:()=>['Salut ! Je peux t’aider à choisir un article, vérifier une taille ou t’expliquer nos garanties. Tu cherches quoi ?'], c:'start'},
+  {k:['merci','top','super','parfait','genial'], a:()=>['Avec plaisir. Bon matos et bonne saison !'], c:'more'},
+  {k:['retour','rembours','renvo','rendre','echang','changer d avis'], a:()=>['Tu as <b>14 jours</b> après réception pour renvoyer l’article. Le remboursement arrive <b>sous 5 jours</b> après réception par le magasin.','Ça vaut aussi pendant le Black Friday.'], c:'more'},
+  {k:['etat','note','defaut','usure','rayure','abime','qualite','controle','verifi'], a:()=>['Chaque article est noté sur 4 par le revendeur :','<b>Comme neuf</b> · aucune trace<br><b>Très bon</b> · micro-marques<br><b>Bon</b> · usure légère, photographiée<br><b>Correct</b> · usure visible, prix en conséquence','Chaque défaut est cadré en gros plan sur la fiche, avec sa taille (ex. « rayure 2 cm »).'], c:'more'},
+  {k:['livr','envoi','expedi','delai','colis','recevoir','retrait','recuper'], a:()=>['Deux options :<br>· <b>Colissimo</b> 6,90 €, envoi sous 48 h<br>· <b>Retrait gratuit</b> chez le revendeur à Lyon, prêt sous 24 h'], c:'more'},
+  {k:['paie','payer','carte','securi','cb','paypal','argent'], a:()=>['Tu paies en ligne et le vendeur n’est payé qu’une fois l’article reçu. Si le paiement échoue, rien n’est débité.'], c:'more'},
+  {k:['litige','arnaque','probleme','souci','conforme','reclam'], a:()=>['Pas de panique. Si l’état ne correspond pas aux photos, on arbitre sur la base de la fiche et tu es remboursé, frais de retour compris.','Écris-nous à <b>bonjour@sportagain.fr</b> avec ton numéro de commande.'], c:'more'},
+  {k:['taille','pointure','alerte','mesure','guide'], a:()=>['Dis-moi ton sport et ta taille (ex. « chaussures ski 42 » ou « vélo M ») et je cherche pour toi.','Rien en stock ? Active l’<a href="#alerte" data-chat-close>alerte taille</a>, on te prévient dès qu’elle arrive.'], c:'more'},
+  {k:['black','promo','reduc','solde','remise','pas cher','bon plan'], a:()=>['Black Friday du <b>23 au 30 novembre</b> : jusqu’à <b>−75 %</b> par rapport au prix neuf, sur du matériel contrôlé.','<a href="#acheter" data-bf data-chat-close>Voir les plus grosses économies</a>'], c:'more'},
+  {k:['magasin','vendre','revendeur','distributeur','commission','pro ','club','boutique'], a:()=>['Vous êtes un magasin ou un club ? Vous listez votre occasion en 3 minutes, commission de 15 % affichée avant publication, sans abonnement pendant le pilote.','<a href="#vendre" data-chat-close>Découvrir l’offre revendeurs</a>'], c:'more'},
+  {k:['humain','conseiller','contact','appeler','telephone','mail','parler'], a:()=>['Un humain te répond du lundi au samedi, sous 24 h : <b style="user-select:all">bonjour@sportagain.fr</b>'], c:'more'},
+  {k:['ecolo','planete','durable','environnement'], a:()=>['Acheter d’occasion prolonge la vie du matériel. Et ton budget aussi en profite.'], c:'more'}
+];
+const SEARCH_WORDS = {ski:'ski',skis:'ski',golf:'golf',velo:'velo',vtt:'velo',bike:'velo',driver:'driver',fer:'fers',fers:'fers',masque:'masque',chaussure:'chaussures',chaussures:'chaussures',sac:'sac',chariot:'chariot',enfant:'enfant',junior:'junior',route:'route',casque:'casque'};
+function findProducts(t){
+  const words=t.split(/[^a-z0-9]+/).filter(Boolean);
+  const keys=words.filter(w=>SEARCH_WORDS[w]||/^\d{2,3}$/.test(w)||/^(s|m|l|xl)$/.test(w));
+  if(!keys.length) return [];
+  const scored=P.map(p=>{const hay=norm2(p.name+' '+p.size+' '+SPORTS[p.sport]+' '+p.sport); let s=0;
+    keys.forEach(w=>{const v=SEARCH_WORDS[w]; if(v && (v===p.sport||hay.includes(v))) s+=2; else if(/^\d/.test(w)&&hay.includes(w)) s+=3; else if(/^(s|m|l|xl)$/.test(w)&&norm2(p.size).split(/[^a-z0-9]+/).includes(w)) s+=3;}); return [p,s];})
+    .filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+  if(!scored.length) return [];
+  const best=scored[0][1]; return scored.filter(x=>x[1]===best).slice(0,3).map(x=>x[0]);
+}
+function addMsg(html, who='bot'){ const d=document.createElement('div'); d.className='msg '+who; d.innerHTML=html; chatLog.appendChild(d); chatLog.scrollTop=chatLog.scrollHeight; }
+function addChips(key){ chatLog.querySelectorAll('.qr').forEach(q=>q.remove()); const d=document.createElement('div'); d.className='qr'; d.innerHTML=CHIPS[key].map(c=>`<button type="button">${c}</button>`).join(''); chatLog.appendChild(d); chatLog.scrollTop=chatLog.scrollHeight; }
+function addCards(list){ const d=document.createElement('div'); d.className='chat-cards'; d.innerHTML=list.map(p=>`<a class="chat-card" href="#produit-${p.id}" data-chat-close><div class="mini">${drawing(p,'face','')}</div><div style="min-width:0"><b>${p.name}</b><span>${STATES[p.st][0]} · ${p.size}</span></div><span class="price">${eur(p.price)}</span></a>`).join(''); chatLog.appendChild(d); chatLog.scrollTop=chatLog.scrollHeight; }
+let botBusy=false;
+async function botSay(parts, chips, cards){
+  botBusy=true;
+  for(const part of parts){
+    const t=document.createElement('div'); t.className='msg bot typing'; t.innerHTML='<i></i><i></i><i></i>'; t.setAttribute('aria-label','L’assistant écrit'); chatLog.appendChild(t); chatLog.scrollTop=chatLog.scrollHeight;
+    await new Promise(r=>setTimeout(r, Math.min(1100, 350+part.length*6)));
+    t.remove(); addMsg(part);
+  }
+  if(cards&&cards.length) addCards(cards);
+  if(chips) addChips(chips);
+  botBusy=false;
+}
+function answer(raw){
+  const t=' '+norm2(raw)+' ';
+  if(/voir les articles/.test(t)){ return botSay(['Je t’ouvre le catalogue. Tout est contrôlé par un revendeur pro.'],'more').then(()=>{ closeChat(); location.hash='acheter'; }); }
+  const prods=findProducts(t);
+  const intent=INTENTS.find(it=>it.k.some(k=>t.includes(k)));
+  if(intent){
+    if(prods.length && ['taille','pointure','alerte'].some(k=>t.includes(k))) return botSay(['Voici ce que j’ai trouvé pour toi, chaque défaut est en photo sur la fiche :'],'more',prods);
+    if(prods.length) return botSay([...intent.a(), 'Et voici ce qu’on a en ce moment :'], intent.c, prods);
+    return botSay(intent.a(), intent.c);
+  }
+  if(prods.length) return botSay([prods.length>1?'Voici ce que j’ai trouvé, tous contrôlés par un pro :':'J’ai trouvé ça, contrôlé par un pro :'],'more',prods);
+  return botSay(['Je n’ai pas encore la réponse à ça. Essaie une de ces questions, ou écris-nous à <b style="user-select:all">bonjour@sportagain.fr</b>, un humain te répond sous 24 h.'],'start');
+}
+function send(text){ text=text.trim(); if(!text||botBusy) return; addMsg(escapeHtml(text),'me'); chatLog.querySelectorAll('.qr').forEach(q=>q.remove()); answer(text); }
+let chatStarted=false;
+function openChat(){
+  chat.classList.add('on'); chat.setAttribute('aria-hidden','false'); chatFab.classList.add('open','seen'); chatFab.setAttribute('aria-expanded','true'); teaser.hidden=true; store.set('chatSeen',true);
+  if(!chatStarted){ chatStarted=true; botSay(['Salut ! Moi c’est l’assistant Sport Again.','Je réponds sur l’état des articles, les tailles, la livraison et les retours. Tu peux aussi me demander un article, par exemple « skis 170 ».'],'start'); }
+  setTimeout(()=>chatInput.focus(),250);
+}
+function closeChat(){ chat.classList.remove('on'); chat.setAttribute('aria-hidden','true'); chatFab.classList.remove('open'); chatFab.setAttribute('aria-expanded','false'); }
+chatFab.addEventListener('click',()=>chat.classList.contains('on')?closeChat():openChat());
+document.getElementById('chatClose').addEventListener('click',()=>{closeChat(); chatFab.focus();});
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault(); send(chatInput.value); chatInput.value='';});
+chatLog.addEventListener('click',e=>{ const b=e.target.closest('.qr button'); if(b){ send(b.textContent); return; } if(e.target.closest('[data-chat-close]')) closeChat(); });
+teaser.addEventListener('click',e=>{ if(e.target.closest('#teaserX')){ teaser.hidden=true; chatFab.classList.add('seen'); store.set('chatSeen',true); return; } openChat(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && chat.classList.contains('on')){ closeChat(); chatFab.focus(); } });
+if(!store.get('chatSeen',false)) setTimeout(()=>{ if(!chat.classList.contains('on')) teaser.hidden=false; },4000); else chatFab.classList.add('seen');
+
+/* ---------- Routeur ---------- */
+const app=document.getElementById('app');
+const scrollMem={};
+let current='';
+function parse(){
+  const h=(location.hash||'#accueil').slice(1);
+  if(h.startsWith('produit-')) return {view:'produit', id:h.slice(8)};
+  if(h.startsWith('alerte-')) return {view:'accueil', anchor:'alerte', sport:h.slice(7)};
+  if(h==='alerte') return {view:'accueil', anchor:'alerte'};
+  if(h==='vendre-form'||h==='vendre-calc') return {view:'vendre', anchor:h};
+  if(V[h] && h!=='produit' && h!=='introuvable') return {view:h};
+  return {view:'accueil'};
+}
+function render(){
+  const r=parse();
+  const key=r.view+(r.id||'');
+  if(current) scrollMem[current]=window.scrollY;
+  const html = r.view==='produit'?V.produit(r.id):V[r.view]();
+  const swap=()=>{
+    app.innerHTML=html;
+    document.body.classList.toggle('pdp-page', r.view==='produit');
+    document.querySelectorAll('[data-nav]').forEach(a=>{ const on=a.dataset.nav===r.view || (r.view==='produit'&&a.dataset.nav==='acheter'); on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'); });
+    if(r.view==='accueil'){
+      bindAlert('home'); initSlides();
+      const f=document.getElementById('finder');
+      f.addEventListener('submit',e=>{e.preventDefault(); filters.sport=document.getElementById('fSport').value; filters.size=document.getElementById('fSize').value.trim(); filters.states=[]; filters.q=''; location.hash='acheter';});
+      if(r.sport && SPORTS[r.sport]){ const s=document.getElementById('homeSport'); if(s) s.value=r.sport; }
+    }
+    if(r.view==='acheter') bindShop();
+    if(r.view==='produit') bindProduct(r.id);
+    if(r.view==='vendre') bindSell();
+    const back = key===current ? null : (r.view==='acheter' && scrollMem[key]!=null && current.startsWith('produit') ? scrollMem[key] : 0);
+    if(r.anchor){ requestAnimationFrame(()=>document.getElementById(r.anchor)?.scrollIntoView({behavior:'smooth',block:'start'})); }
+    else if(back!==null){ window.scrollTo({top:back,behavior:'instant'}); }
+    current=key;
+    document.title = r.view==='produit'&&byId(r.id) ? `${byId(r.id).name} · Sport Again` : 'Sport Again';
+  };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(document.startViewTransition && !reduce && current) document.startViewTransition(swap); else swap();
+}
+window.addEventListener('hashchange',()=>{ if(scrimFor) closeOverlays(); render(); });
+
+/* ---------- Thème ---------- */
+const savedTheme=store.get('theme',null); if(savedTheme) document.documentElement.dataset.theme=savedTheme;
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const root=document.documentElement;
+  const isDark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = isDark?'light':'dark'; store.set('theme',root.dataset.theme);
+});
+
+updateCount(false);
+render();
+})();
+</script>
